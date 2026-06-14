@@ -12,7 +12,7 @@
 #
 # title appears in the header
 title: Data Analysis in R for Complete Beginners
-tagline: "DMSFI-CRD's R Workshop - October 2025"
+tagline: "DMSFI-CRD's R Workshop - Sometime in 2026"
 # title-icon appears in the header to give some pizazz (leave blank for none)
 # choose from Bootstrap Icons in _includes/bootstrap-icons
 # find names on https://icons.getbootstrap.com/ (or look in "_includes/bootstrap-icons")
@@ -30,7 +30,7 @@ author: John Lennon L. Calorio
 # year or date published, displayed in sidebar
 publication_year: 2026
 # location of code, the full url to your github repository
-source-code: https://github.com/jllcalorio/dmsfi-crd-R-workshop-august-2025
+source-code: https://github.com/jllcalorio/data-analysis-in-R-for-complete-beginners
 # content license (typically "cc by-sa"), displayed in sidebar
 content_license: "CC BY-SA"
 # URL to the content license

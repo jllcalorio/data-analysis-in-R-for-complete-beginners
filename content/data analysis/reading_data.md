@@ -13,7 +13,7 @@ This section will teach you how to **load these files into R**, so you can begin
 
 CSV (Comma-Separated Values) is one of the most common formats for exporting medical data — from patient logs to laboratory results.
 
-To try the codes below, download the [patients_data.csv file here](https://github.com/jllcalorio/data-analysis-in-R-for-complete-beginners/blob/main/patients_data.csv) and save (or move) it in your current working directory.
+To try the codes below, download the [patients_data.csv file here](https://github.com/jllcalorio/data-analysis-in-R-for-complete-beginners/blob/afbc275975d8507e7fba2c7aa5b8a5108ac1ec89/sample_patients.csv) and save (or move) it in your current working directory.
 
 ```r
 library(readr)
