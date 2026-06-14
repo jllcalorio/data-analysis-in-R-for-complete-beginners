@@ -11,17 +11,17 @@
 # SITE SETTINGS
 #
 # title appears in the header
-title: Data Analysis in Python for Complete Beginners
-tagline: "DMSFI-CRD's Python Workshop - October 2025"
+title: Data Analysis in R for Complete Beginners
+tagline: "DMSFI-CRD's R Workshop - October 2025"
 # title-icon appears in the header to give some pizazz (leave blank for none)
 # choose from Bootstrap Icons in _includes/bootstrap-icons
 # find names on https://icons.getbootstrap.com/ (or look in "_includes/bootstrap-icons")
 # some options: code-slash file-code gear tools lightblub book bookmark-star
 title-icon: code-slash
 # description appears in sidebar footer
-description: "A workshop for complete beginners in Python (a programming language) covering basics to data analysis."
+description: "A workshop for complete beginners in R (a programming language) covering basics to data analysis."
 # keywords for meta tags used by search engines
-keywords: "workshops, python, dmsf, crd, davao"
+keywords: "workshops, R, dmsf, crd, davao"
 # image for meta tags, will appear when sharing link on social media
 featured-image: "/images/banner2.jpg"
 
@@ -30,7 +30,7 @@ author: John Lennon L. Calorio
 # year or date published, displayed in sidebar
 publication_year: 2025
 # location of code, the full url to your github repository
-source-code: https://github.com/jllcalorio/dmsfi-crd-python-workshop-august-2025
+source-code: https://github.com/jllcalorio/dmsfi-crd-R-workshop-august-2025
 # content license (typically "cc by-sa"), displayed in sidebar
 content_license: "CC BY-SA"
 # URL to the content license

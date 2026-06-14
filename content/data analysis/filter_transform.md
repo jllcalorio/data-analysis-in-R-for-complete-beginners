@@ -1,64 +1,80 @@
 ---
-section: Data Analysis with Python
+section_id: Data Analysis with R
 nav_order: 5
 title: Data Filtering and Transformation
-topics: filtering, transformation
+topics: filtering, transformation, dplyr, mutate
 ---
 
-**Transforming data** helps uncover patterns in **patient records**, **clinical measurements**, and **laboratory results**.
+**Transforming data** helps uncover patterns in **patient records, clinical measurements, and laboratory results**.
 
 In medical data analysis, we often group data (e.g., by hospital department or diagnosis), compute summary statistics (e.g., average glucose by group), and create derived variables such as BMI or risk categories.
 
 {% include question.html header="Grouping and Aggregation" text="
 
-**Basic ```groupby``` operations**
+**Basic `group_by()` operations**
 
-```python
-dept_stats = df.groupby('Department').agg({
-    'Blood_Pressure': ['mean', 'median', 'std', 'count'],
-    'Age': ['mean', 'min', 'max']
-}).round(2)
+```r
+library(dplyr)
 
-print(\"Department statistics:\")
+dept_stats <- df |>
+  group_by(Diagnosis) |>
+  summarise(
+    mean_bp   = round(mean(Blood_Pressure),   2),
+    median_bp = round(median(Blood_Pressure), 2),
+    sd_bp     = round(sd(Blood_Pressure),     2),
+    n         = n(),
+    mean_age  = round(mean(Age),              2),
+    min_age   = min(Age),
+    max_age   = max(Age)
+  )
+
+cat(\"Diagnosis statistics:\n\")
 print(dept_stats)
 ```
 
 **Custom aggregation functions**
 
-```python
-def bp_range(series):
-    return series.max() - series.min()
+```r
+bp_range <- function(x) max(x) - min(x)
 
-custom_stats = df.groupby('Diagnosis').agg({
-    'Blood_Pressure': [bp_range, 'mean'],
-    'Age': ['count']
-})
+custom_stats <- df |>
+  group_by(Diagnosis) |>
+  summarise(
+    bp_range   = bp_range(Blood_Pressure),
+    mean_bp    = mean(Blood_Pressure),
+    n_patients = n()
+  )
 
-print(\"\nCustom aggregation:\")
+cat(\"\nCustom aggregation:\n\")
 print(custom_stats)
 ```
 " %}
 
 {% include question.html header="Data Transformation" text="
 
-**Creating new columns**
+**Creating new columns with `mutate()`**
 
-```python
-# Categorize fasting glucose levels
-df['Glucose_Category'] = pd.cut(df['Glucose'],
-                               bins=[0, 100, 125, 200, float('inf')],
-                               labels=['Normal', 'Prediabetes', 'Diabetes', 'Critical'])
+```r
+df <- df |>
+  mutate(
+    # Categorize fasting glucose levels
+    Glucose_Category = case_when(
+      Glucose <= 100              ~ \"Normal\",
+      Glucose <= 125              ~ \"Prediabetes\",
+      Glucose <= 200              ~ \"Diabetes\",
+      TRUE                        ~ \"Critical\"
+    ),
+    # Age group classification
+    Age_Group = case_when(
+      Age <= 18  ~ \"Child\",
+      Age <= 40  ~ \"Young Adult\",
+      Age <= 60  ~ \"Middle-aged\",
+      TRUE       ~ \"Elderly\"
+    )
+  )
 
-# Calculate BMI if height and weight are given
-df['BMI'] = (df['Weight_kg'] / (df['Height_m'] ** 2)).round(1)
-
-# Age group classification
-df['Age_Group'] = pd.cut(df['Age'],
-                         bins=[0, 18, 40, 60, 100],
-                         labels=['Child', 'Young Adult', 'Middle-aged', 'Elderly'])
-
-print(\"New columns created:\")
-print(df[['Name', 'Glucose', 'Glucose_Category', 'BMI', 'Age_Group']].head())
+cat(\"New columns created:\n\")
+print(head(df |> select(Name, Glucose, Glucose_Category, Age, Age_Group)))
 ```
 " %}
 
@@ -66,28 +82,31 @@ print(df[['Name', 'Glucose', 'Glucose_Category', 'BMI', 'Age_Group']].head())
 
 **Sorting data**
 
-```python
-glucose_sorted = df.sort_values('Glucose', ascending=False)
-print(\"Top 5 patients with highest glucose:\")
-print(glucose_sorted[['Name', 'Glucose', 'Diagnosis']].head())
+```r
+glucose_sorted <- df |> arrange(desc(Glucose))
+cat(\"Top 5 patients with highest glucose:\n\")
+print(head(glucose_sorted |> select(Name, Glucose, Diagnosis)))
 ```
 
 **Multiple column sorting**
 
-```python
-multi_sorted = df.sort_values(['Diagnosis', 'Glucose'], ascending=[True, False])
-print(\"\nSorted by diagnosis, then glucose (desc):\")
-print(multi_sorted[['Name', 'Diagnosis', 'Glucose']].head(10))
+```r
+multi_sorted <- df |> arrange(Diagnosis, desc(Glucose))
+cat(\"\nSorted by diagnosis, then glucose (desc):\n\")
+print(head(multi_sorted |> select(Name, Diagnosis, Glucose), 10))
 ```
 
 **Ranking**
 
-```python
-df['Glucose_Rank'] = df['Glucose'].rank(ascending=False)
-df['Dept_BP_Rank'] = df.groupby('Department')['Blood_Pressure'].rank(ascending=False)
+```r
+df <- df |>
+  mutate(
+    Glucose_Rank = rank(-Glucose),
+    Dept_BP_Rank = ave(Blood_Pressure, Diagnosis, FUN = function(x) rank(-x))
+  )
 
-print(\"\nRankings:\")
-print(df[['Name', 'Department', 'Blood_Pressure', 'Dept_BP_Rank']].head())
+cat(\"\nRankings:\n\")
+print(head(df |> select(Name, Diagnosis, Blood_Pressure, Dept_BP_Rank)))
 ```
 " %}
 
@@ -96,7 +115,7 @@ print(df[['Name', 'Department', 'Blood_Pressure', 'Dept_BP_Rank']].head())
 
 - **Grouping and aggregation** summarize patient data efficiently (e.g., average BP or glucose by diagnosis).
 - **Custom aggregation** lets you compute medical-specific metrics like BP range or mean BMI.
-- **Data transformation** helps create derived health indicators (e.g., BMI, glucose category, age group).
+- **Data transformation** with `mutate()` helps create derived health indicators (e.g., glucose category, age group).
 - **Sorting and ranking** assist in prioritizing patients or identifying extreme cases.
 {% endcapture %}
 {% include alert.html text=text color=secondary %}

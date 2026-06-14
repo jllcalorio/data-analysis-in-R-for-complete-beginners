@@ -1,200 +1,165 @@
 ---
-section: Data Analysis with Python
+section_id: Data Analysis with R
 nav_order: 6
 title: Data Visualization
-topics: matplotlib, seaborn, visualization
+topics: ggplot2, visualization
 ---
 
-Visualizations help reveal patterns in clinical data — such as **disease prevalence, lab result distributions, and relationships between vital signs** — and effectively communicate findings to support medical decisions or publications.
+**Visualizations help reveal patterns** in clinical data — such as **disease prevalence, lab result distributions, and relationships between vital signs** — and effectively communicate findings to support medical decisions or publications.
 
-{% include question.html header="Basic Plotting with Matplotlib" text="
+{% include question.html header="Basic Plotting with ggplot2" text="
 
-**Import modules**
+**Load package and set theme**
 
-```python
-import matplotlib.pyplot as plt
+```r
+library(ggplot2)
+theme_set(theme_bw())
 ```
 
-**Set up plotting style**
-
-```python
-plt.style.use('default')
-fig_size = (12, 8)
-```
-
-**Histogram - Distribution of Glucose Levels**
+**Histogram — Distribution of Glucose Levels**
 
 💡 *Use case:* Quickly visualize how many patients fall into normal, prediabetic, or diabetic glucose ranges.
 
-```python
-plt.figure(figsize=fig_size)
-plt.hist(df['Glucose'], bins=20, edgecolor='black', alpha=0.7, color='skyblue')
-plt.title('Distribution of Fasting Glucose Levels', fontsize=16)
-plt.xlabel('Glucose (mg/dL)', fontsize=12)
-plt.ylabel('Number of Patients', fontsize=12)
-plt.grid(True, alpha=0.3)
-plt.show()
+```r
+ggplot(df, aes(x = Glucose)) +
+  geom_histogram(bins = 20, fill = \"skyblue\", color = \"black\", alpha = 0.7) +
+  labs(
+    title = \"Distribution of Fasting Glucose Levels\",
+    x     = \"Glucose (mg/dL)\",
+    y     = \"Number of Patients\"
+  )
 ```
 
-**Box plot - Glucose by Diagnosis**
+**Box plot — Glucose by Diagnosis**
 
 💡 *Use case:* Compare glucose variability across different conditions (e.g., Diabetes, Hypertension, Normal).
 
-```python
-plt.figure(figsize=fig_size)
-diagnoses = df['Diagnosis'].unique()
-glucose_by_diag = [df[df['Diagnosis'] == d]['Glucose'] for d in diagnoses]
-
-plt.boxplot(glucose_by_diag, labels=diagnoses)
-plt.title('Glucose Distribution by Diagnosis', fontsize=16)
-plt.xlabel('Diagnosis', fontsize=12)
-plt.ylabel('Glucose (mg/dL)', fontsize=12)
-plt.xticks(rotation=45)
-plt.grid(True, alpha=0.3)
-plt.show()
+```r
+ggplot(df, aes(x = Diagnosis, y = Glucose, fill = Diagnosis)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(
+    title = \"Glucose Distribution by Diagnosis\",
+    x     = \"Diagnosis\",
+    y     = \"Glucose (mg/dL)\"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 " %}
 
-{% include question.html header="Advanced Plotting with Seaborn" text="
-
-Set up.
-
-```python
-# Import module
-import seaborn as sns
-
-# Set seaborn style
-sns.set_style(\"whitegrid\")
-plt.figure(figsize=(15, 10))
-```
+{% include question.html header="Advanced Plotting with ggplot2" text="
 
 **Correlation heatmap**
 
-💡 *Use case:* Identify correlations (e.g., between BMI and blood pressure).
+💡 *Use case:* Identify correlations (e.g., between Age and Blood Pressure).
 
-```python
-plt.subplot(2, 3, 1)
-corr_matrix = df[['Age', 'Glucose', 'BMI', 'Blood_Pressure']].corr()
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', center=0)
-plt.title('Correlation Matrix of Clinical Variables')
+```r
+library(reshape2)   # or use tidyr::pivot_longer
+
+corr_matrix <- cor(df |> select(Age, Glucose, Blood_Pressure), use = \"complete.obs\")
+corr_melt   <- melt(corr_matrix)
+
+ggplot(corr_melt, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), color = \"white\") +
+  scale_fill_gradient2(low = \"blue\", mid = \"white\", high = \"red\", midpoint = 0) +
+  labs(title = \"Correlation Matrix of Clinical Variables\")
 ```
 
 **Scatter plot with regression line**
 
 💡 *Use case:* Explore whether glucose tends to rise with age and how it differs by diagnosis.
 
-```python
-plt.subplot(2, 3, 2)
-sns.scatterplot(data=df, x='Age', y='Glucose', hue='Diagnosis', alpha=0.7)
-sns.regplot(data=df, x='Age', y='Glucose', scatter=False, color='red')
-plt.title('Age vs Glucose by Diagnosis')
+```r
+ggplot(df, aes(x = Age, y = Glucose, color = Diagnosis)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = \"lm\", se = FALSE, color = \"red\") +
+  labs(title = \"Age vs Glucose by Diagnosis\")
 ```
 
-**Distribution plot**
+**Density plot**
 
 💡 *Use case:* Compare glucose distributions across diagnoses using kernel density estimation.
 
-```python
-plt.subplot(2, 3, 3)
-for diag in df['Diagnosis'].unique():
-    diag_data = df[df['Diagnosis'] == diag]['Glucose']
-    sns.kdeplot(diag_data, label=diag)
-plt.title('Glucose Distribution by Diagnosis')
-plt.legend()
-```
-
-**Box plot**
-
-💡 *Use case:* Examine BMI variation among diagnostic categories.
-
-```python
-plt.subplot(2, 3, 4)
-sns.boxplot(data=df, x='Diagnosis', y='BMI')
-plt.title('BMI by Diagnosis')
-plt.xticks(rotation=45)
-```
-
-**Count plot**
-
-💡 *Use case:* Display patient counts per glucose category within each diagnosis.
-
-```python
-plt.subplot(2, 3, 5)
-sns.countplot(data=df, x='Glucose_Category', hue='Diagnosis')
-plt.title('Glucose Categories by Diagnosis')
-plt.xticks(rotation=45)
+```r
+ggplot(df, aes(x = Glucose, fill = Diagnosis, color = Diagnosis)) +
+  geom_density(alpha = 0.3) +
+  labs(title = \"Glucose Distribution by Diagnosis\")
 ```
 
 **Violin plot**
 
-💡 *Use case:* Visualize the full distribution of blood pressure across age groups.
+💡 *Use case:* Examine BMI variation among diagnostic categories.
 
-```python
-plt.subplot(2, 3, 6)
-sns.violinplot(data=df, x='Age_Group', y='Blood_Pressure')
-plt.title('Blood Pressure Distribution by Age Group')
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+```r
+ggplot(df, aes(x = Diagnosis, y = Blood_Pressure, fill = Diagnosis)) +
+  geom_violin(alpha = 0.7) +
+  geom_boxplot(width = 0.1, fill = \"white\") +
+  labs(title = \"Blood Pressure Distribution by Diagnosis\") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+**Count/bar plot**
+
+💡 *Use case:* Display patient counts per glucose category within each diagnosis.
+
+```r
+ggplot(df, aes(x = Glucose_Category, fill = Diagnosis)) +
+  geom_bar(position = \"dodge\") +
+  labs(
+    title = \"Glucose Categories by Diagnosis\",
+    x     = \"Glucose Category\",
+    y     = \"Count\"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 " %}
 
-{% include question.html header="Interactive Plotting Concepts" text="
+{% include question.html header="Combining Multiple Plots" text="
 
-💡 *Use case:* Summarize proportions of diagnoses and visualize clinical indicators interactively.
+💡 *Use case:* Summarize proportions of diagnoses and visualize clinical indicators together.
 
-**Creating summary visualizations**
+```r
+library(ggplot2)
+library(patchwork)   # install.packages(\"patchwork\")
 
-```python
-fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-```
+# Age distribution
+p1 <- ggplot(df, aes(x = Age)) +
+  geom_histogram(bins = 15, fill = \"lightblue\", color = \"black\") +
+  labs(title = \"Age Distribution\", x = \"Age (years)\", y = \"Count\")
 
-**Age distribution**
+# Average Glucose by Diagnosis
+avg_glucose <- df |>
+  group_by(Diagnosis) |>
+  summarise(Mean_Glucose = mean(Glucose)) |>
+  arrange(desc(Mean_Glucose))
 
-```python
-axes[0, 0].hist(df['Age'], bins=15, edgecolor='black', alpha=0.7, color='lightblue')
-axes[0, 0].set_title('Age Distribution of Patients')
-axes[0, 0].set_xlabel('Age (years)')
-axes[0, 0].set_ylabel('Number of Patients')
-```
+p2 <- ggplot(avg_glucose, aes(x = reorder(Diagnosis, -Mean_Glucose), y = Mean_Glucose, fill = Diagnosis)) +
+  geom_col() +
+  labs(title = \"Average Glucose by Diagnosis\", x = \"Diagnosis\", y = \"Glucose (mg/dL)\")
 
-**Average Glucose by Department**
+# Scatter: Age vs Blood Pressure
+p3 <- ggplot(df, aes(x = Age, y = Blood_Pressure)) +
+  geom_point(alpha = 0.6, color = \"darkgreen\") +
+  labs(title = \"Age vs Blood Pressure\", x = \"Age\", y = \"BP (mmHg)\")
 
-```python
-dept_avg_glucose = df.groupby('Department')['Glucose'].mean().sort_values(ascending=False)
-axes[0, 1].bar(dept_avg_glucose.index, dept_avg_glucose.values, color='salmon')
-axes[0, 1].set_title('Average Glucose by Department')
-axes[0, 1].set_xlabel('Department')
-axes[0, 1].set_ylabel('Glucose (mg/dL)')
-axes[0, 1].tick_params(axis='x', rotation=45)
-```
+# Diagnosis composition (pie-like bar)
+p4 <- ggplot(df, aes(x = \"\", fill = Diagnosis)) +
+  geom_bar(width = 1) +
+  coord_polar(\"y\") +
+  labs(title = \"Diagnosis Composition\") +
+  theme_void()
 
-**Years of Follow-up vs BMI**
-
-```python
-axes[1, 0].scatter(df['Years_Followup'], df['BMI'], alpha=0.6, color='green')
-axes[1, 0].set_title('Years of Follow-up vs BMI')
-axes[1, 0].set_xlabel('Years of Follow-up')
-axes[1, 0].set_ylabel('BMI')
-```
-
-**Diagnosis Composition (Pie Chart)**
-
-```python
-diag_counts = df['Diagnosis'].value_counts()
-axes[1, 1].pie(diag_counts.values, labels=diag_counts.index, autopct='%1.1f%%', startangle=90)
-axes[1, 1].set_title('Diagnosis Composition of Patients')
-plt.tight_layout()
-plt.show()
+# Combine with patchwork
+(p1 + p2) / (p3 + p4)
 ```
 " %}
 
 {% capture text %}
 **Key Takeaways**
 
-- **Matplotlib** is great for quick and customizable visualizations (histograms, box plots).
-- **Seaborn** adds elegance and statistical strength with plots like KDE, violin, and regression plots.
-- Visualizations are crucial for **pattern recognition**, **data quality assessment**, and **research presentation**.
-- Use them to **compare distributions**, **examine relationships**, and **summarize populations in any data**.
+- `ggplot2` uses a layered **grammar of graphics** — start with data, add aesthetics, then layers.
+- Plots like density, violin, and scatter with regression add statistical depth.
+- Visualizations are crucial for **pattern recognition, data quality assessment, and research presentation**.
+- Use them to **compare distributions, examine relationships, and summarize populations in any data**.
 {% endcapture %}
 {% include alert.html text=text color=secondary %}

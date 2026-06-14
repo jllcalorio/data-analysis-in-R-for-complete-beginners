@@ -1,5 +1,5 @@
 ---
-section: Intermediate Python
+section_id: Intermediate Python
 nav_order: 1
 title: Writing Functions
 topics: functions
@@ -9,19 +9,20 @@ topics: functions
 
 {% include question.html header="Function Basics Review" text="
 
-Let’s say we want to create a function that greets a patient when their name is entered into a system.
+Let's say we want to create a function that greets a patient when their name is entered into a system.
 
-```python
-def greet(name):
-    \"\"\"A simple function that greets someone.\"\"\"
-    return f\"Hello, {name}! Welcome to your appointment.\"
+```r
+greet <- function(name) {
+  # A simple function that greets someone.
+  return(paste0(\"Hello, \", name, \"! Welcome to your appointment.\"))
+}
 ```
 
 Call the function:
 
-```python
-message = greet(\"Dr. Reyes\")
-print(message)                     # Output: Hello, Dr. Reyes! Welcome to your appointment.
+```r
+message <- greet(\"Dr. Reyes\")
+print(message)                   # Output: Hello, Dr. Reyes! Welcome to your appointment.
 ```
 " %}
 
@@ -29,155 +30,130 @@ print(message)                     # Output: Hello, Dr. Reyes! Welcome to your a
 
 {% include question.html header="Default Parameters" text="
 
-Let’s define a function that creates a **basic patient profile** — similar to what you’d store in an electronic medical record (EMR).
+Let's define a function that creates a **basic patient profile** — similar to what you'd store in an electronic medical record (EMR).
 
-```python
-def create_profile(name, age, city=\"Davao\", diagnosis=\"Not yet diagnosed\"):
-    \"\"\"Create a patient profile with default values.\"\"\"
-    profile = {
-        \"name\": name,
-        \"age\": age,
-        \"city\": city,
-        \"diagnosis\": diagnosis
-    }
-    return profile
+```r
+create_profile <- function(name, age, city = \"Davao\", diagnosis = \"Not yet diagnosed\") {
+  # Create a patient profile with default values.
+  profile <- list(
+    name      = name,
+    age       = age,
+    city      = city,
+    diagnosis = diagnosis
+  )
+  return(profile)
+}
 ```
 
-Run the function using (1) default parameters and (2) custom parameters:
+Run the function using
 
-```python
-patient1 = create_profile(\"Ana Santos\", 35)
-patient2 = create_profile(\"Miguel Cruz\", 58, \"Davao\", \"Hypertension\")
+1. default parameters and
+2. custom parameters:
 
-print(patient1)  # city and diagnosis use defaults
-print(patient2)  # all parameters specified
-```
-" %}
+```r
+patient1 <- create_profile(\"Ana Santos\", 35)
+patient2 <- create_profile(\"Miguel Cruz\", 58, \"Davao\", \"Hypertension\")
 
-{% include question.html header="Keyword Arguments" text="
-
-Here’s a fun analogy: imagine writing a function that **orders medical supplies** (instead of pizza).
-
-```python
-def order_supplies(quantity, *items, **details):
-    \"\"\"Order medical supplies with flexible arguments.\"\"\"
-    print(f\"Order quantity: {quantity}\")
-    print(f\"Items: {', '.join(items)}\")
-
-    for key, value in details.items():
-        print(f\"{key}: {value}\")
-```
-
-Call the function:
-
-```python
-order_supplies(3, \"syringes\", \"bandages\",
-               urgent=True, delivery=\"Next-day\")
+print(patient1)   # city and diagnosis use defaults
+print(patient2)   # all parameters specified
 ```
 " %}
 
-{% include question.html header="Variable-Length Arguments" text="
+{% include question.html header="Variable-Length Arguments with ..." text="
 
-You can also design flexible functions that handle **any number of lab results** or patient details.
+R uses `...` (the ellipsis) to pass a variable number of arguments to a function.
 
 **Example 1:** Calculate average blood glucose readings:
 
-```python
-def calculate_average(*values):
-    \"\"\"Calculate average of any number of readings.\"\"\"
-    if not values:
-        return 0
-    return sum(values) / len(values)
+```r
+calculate_average <- function(...) {
+  # Calculate average of any number of readings.
+  values <- c(...)
+  if (length(values) == 0) return(0)
+  return(mean(values))
+}
 ```
 
-**Example 2:** Create a **patient record** with flexible fields:
+**Example 2:** Create a patient record with flexible fields using a named list:
 
-```python
-def create_patient_record(name, **info):
-    \"\"\"Create a patient record with flexible information.\"\"\"
-    record = {\"name\": name}
-    record.update(info)
-    return record
+```r
+create_patient_record <- function(name, ...) {
+  # Create a patient record with flexible information.
+  extra <- list(...)
+  record <- c(list(name = name), extra)
+  return(record)
+}
 ```
 
 Use the functions:
 
-```python
-avg_glucose = calculate_average(92, 110, 87, 105)
-print(f\"Average Glucose: {avg_glucose:.1f} mg/dL\")
+```r
+avg_glucose <- calculate_average(92, 110, 87, 105)
+cat(sprintf(\"Average Glucose: %.1f mg/dL\n\", avg_glucose))
 
-patient = create_patient_record(
-    \"Maria Dela Cruz\",
-    age=47,
-    condition=\"Diabetes\",
-    medications=[\"Metformin\", \"Insulin\"],
-    last_visit=\"2025-09-10\"
+patient <- create_patient_record(
+  \"Maria Dela Cruz\",
+  age         = 47,
+  condition   = \"Diabetes\",
+  medications = c(\"Metformin\", \"Insulin\"),
+  last_visit  = \"2025-09-10\"
 )
 print(patient)
 ```
 " %}
 
-{% include question.html header="Lambda Functions (Anonymous Functions)" text="
+{% include question.html header="Anonymous Functions" text="
 
-**Lambda** functions are **compact, one-line functions** useful for quick calculations or filtering data.
+R supports anonymous (inline) functions — compact, one-line functions useful for quick calculations or passing logic to other functions.
 
-For instance, you could quickly identify patients with elevated BMI values.
+```r
+# Named function
+bmi <- function(weight, height) weight / (height ^ 2)
 
-```python
-# Regular function
-def bmi(weight, height):
-    return weight / (height ** 2)
+# Anonymous function equivalent (R 4.1+ shorthand)
+bmi_anon <- \\(weight, height) weight / (height ^ 2)
 
-# Lambda equivalent
-bmi_lambda = lambda weight, height: weight / (height ** 2)
-
-print(bmi_lambda(70, 1.75))  # Output: 22.86
+print(bmi_anon(70, 1.75))   # Output: 22.85714
 ```
 
-Filtering a list of patients:
+Filtering a list of patients using `Filter()`:
 
-```python
-patients = [
-    {\"name\": \"Ana\", \"bmi\": 22.5},
-    {\"name\": \"Ben\", \"bmi\": 29.8},
-    {\"name\": \"Clara\", \"bmi\": 18.9}
-]
+```r
+patients <- list(
+  list(name = \"Ana\",   bmi = 22.5),
+  list(name = \"Ben\",   bmi = 29.8),
+  list(name = \"Clara\", bmi = 18.9)
+)
 
-# Get only overweight patients (BMI ≥ 25)
-overweight = list(filter(lambda p: p[\"bmi\"] >= 25, patients))
+# Get only overweight patients (BMI >= 25)
+overweight <- Filter(\\(p) p$bmi >= 25, patients)
 print(overweight)
 ```
 
-What are its advantages of a ```lambda``` function.
+**Advantages of anonymous functions:**
 
-- **Inline definition:** You can define a function in a single line without naming it
-- **Saves space:** Ideal for short, throwaway functions used once or in a small scope
-- Great for **Testing and Prototyping**
+- Defined inline without naming
+- Ideal for short, single-use logic inside functions like `Filter()`, `Map()`, `sapply()`
 
-What are the disadvantages?
+**Disadvantages:**
 
-- they can hurt readability if overused or used for complex logic
-- if your function spans multiple operations or needs documentation, a named def function is usually better
+- Can reduce readability if overused or applied to complex logic
+- For multi-step operations, a named function is usually clearer
 
-**Let's see another example:**
+Another example using `sapply()`:
 
-```python
-# Lambda equivalent
-square_lambda = lambda x: x ** 2
+```r
+numbers <- 1:5
+squared <- sapply(numbers, \\(x) x ^ 2)
+print(squared)   # 1  4  9 16 25
 
-# Common use with built-in functions
-numbers = [1, 2, 3, 4, 5]
-squared = list(map(lambda x: x ** 2, numbers))
-print(squared)  # [1, 4, 9, 16, 25]
+students <- list(
+  list(name = \"Alice\",   grade = 85),
+  list(name = \"Bob\",     grade = 92),
+  list(name = \"Charlie\", grade = 78)
+)
 
-# Filtering with lambda
-students = [
-    {\"name\": \"Alice\", \"grade\": 85},
-    {\"name\": \"Bob\", \"grade\": 92},
-    {\"name\": \"Charlie\", \"grade\": 78}
-]
-
-high_performers = list(filter(lambda s: s[\"grade\"] >= 85, students))
+high_performers <- Filter(\\(s) s$grade >= 85, students)
 print(high_performers)
 ```
 " %}

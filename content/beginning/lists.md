@@ -1,114 +1,73 @@
 ---
-section: Beginning Python
+section_id: Beginning R
 nav_order: 6
-title: Lists
-topics: list, collection, multiple data storing
+title: Vectors and Lists
+topics: vector, list, collection, multiple data storing
 ---
 
-**Lists** can store multiple types of data, not just medical or clinical data. For instance, a hospital system might store a list of patient names, lab test results, or vital signs in a list and even salaries.
+In R, we use **Vectors** for collections of the same type (like a list of ages) and Lists for collections that can hold different types (like a patient record).
 
-They're one of the most useful data structures in Python!
+{% include question.html header="Creating Vectors and Lists" text="
 
-{% include question.html header="Creating Lists" text="
+Vectors are created using `c() `(combine).
 
-Lists in Python can be of any type: integers, strings, floats, Booleans, even other lists.
+```r
+# Vector of patient names
+patients <- c(\"Alice\", \"Ben\", \"Carla\", \"David\")
 
-```python
-# Empty list
-empty_list = [] # Can be used to initialize a list as a container of results
+# Vector of blood pressure readings
+bp_readings <- c(120, 130, 110, 140)
 
-# List with items
-# Example: list of patient names
-patients = ['Alice', 'Ben', 'Carla', 'David']
-
-# Example: list of blood pressure readings (mmHg)
-bp_readings = [120, 130, 110, 140]
-
-# Example: mixed list of different data types
-patient_info = ['John Doe', 45, 72.5, True]  # name, age, weight(kg), is_admitted
+# Lists can store mixed data types
+patient_info <- list(\"John Doe\", 45, 72.5, TRUE)
 ```
 " %}
 
-{% include question.html header="Accessing List Items" text="
+{% include question.html header="Accessing Items (1-Based Indexing)" text="
 
-Items in lists can be accessed using their ```index```. The index (or position) of the item in a list start at 0.
+**Important:** In R, indexing starts at `1`.
 
-Thus, in ```patients = ['Alice', 'Ben', 'Carla', 'David']```, the index of Alice is 0, and the index of Ben is 1.
-
-Weirdly, the index of the last item in the list is -1, while the 2nd to the last index is -2. Try it out in your PC!
-
-**Tip:** In R, the index starts at 1.
-
-```python
-# Accessing by index (starts at 0)
-print(patients[0])   # First patient: Alice
-print(patients[1])   # Second patient: Ben
-print(patients[-1])  # Last patient: David
-print(patients[-2])  # Second to last: Carla
+```r
+# Accessing items
+print(patients[1])   # First patient:  Alice
+print(patients[2])   # Second patient: Ben
+print(patients[4])   # Fourth patient: David
 ```
 
-In clinical data, indexing can be used to retrieve specific patient records or lab results from a list.
+In clinical data, indexing retrieves specific records or results.
 " %}
 
-{% include question.html header="List Methods" text="
+{% include question.html header="Modifying Collections" text="
 
-These list methods are used when you want to:
+```r
+patients <- c(\"Alice\", \"Ben\")
 
-- add item/s in the list (whether at the end or at a specific index)
-- remove item/s in the list
-- inspect/count items in a list
-- reordering or copying items in a list
+# Adding items
+patients <- c(patients, \"Carla\")       # Add to end
+print(patients)                          # \"Alice\" \"Ben\" \"Carla\"
 
-```python
-patients = ['Alice', 'Ben']
+# Removing items (using negative index)
+patients <- patients[-1]                 # Removes the FIRST item
+print(patients)                          # \"Ben\" \"Carla\"
+
+# Getting total count
+length(patients)                         # 2
 ```
-Adding items
-
-```python
-patients.append('Carla')            # Add to end
-patients.insert(1, 'David')         # Insert at position 1
-print(patients)                     # ['Alice', 'David', 'Ben', 'Carla']
-```
-Removing items
-
-```python
-patients.remove('David')            # Remove specific patient
-last_patient = patients.pop()       # Remove and return last patient
-print(patients)                     # ['Alice', 'Ben']
-print(last_patient)                 # Carla
-```
-Other useful methods
-
-```python
-patients.extend(['Ella', 'Fred'])   # Adding multiple new patients
-print(len(patients))                # Get total count of patients: 4
-print(patients.count('Alice'))      # Count occurrences of a specific patient: 1
-```
-
-These list operations are common when managing patient registries, lists of medications, or data collected in clinical studies.
 " %}
 
-{% include question.html header="List Slicing" text="
+{% include question.html header="Vector Slicing" text="
 
-Slicing allows you to extract a portion of a list using a concise syntax.
+Slicing in R uses the `start:stop` syntax (both ends inclusive).
 
-It follows this syntax: ```list_name[start:stop:step]```
+```r
+temperatures <- c(36.5, 37.1, 36.8, 37.5, 38.0, 36.9)
 
-```python
-temperatures = [36.5, 37.1, 36.8, 37.5, 38.0, 36.9, 37.2, 36.7, 37.3, 37.0]
-
-print(temperatures[2:5])   # Readings 2 to 4: [36.8, 37.5, 38.0]
-print(temperatures[:3])    # First 3 readings
-print(temperatures[7:])    # Last few readings
-print(temperatures[::2])   # Every second reading
-print(temperatures[::-1])  # Readings in reverse order
+print(temperatures[2:4])   # 2nd to 4th readings: 37.1 36.8 37.5
+print(temperatures[1:3])   # First 3 readings
 ```
-
-**Slicing** is helpful when selecting subsets of data — for instance, extracting readings for a ```specific day``` or ```patient```.
 " %}
-
 
 {% capture text %}
-Lists allow you to store and organize multiple pieces of related data in one place. In medicine, this could represent a patient’s list of medications, recorded temperatures, or test results. They’re flexible, easy to manipulate, and fundamental in handling repeated or time-series data.
+Vectors and lists allow you to organize related data. In medicine, this could represent a patient's list of medications or recorded temperatures.
 {% endcapture %}
 {% include alert.html text=text color=secondary %}

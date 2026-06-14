@@ -1,64 +1,62 @@
 ---
-section: Data Analysis with Python
+section_id: Data Analysis with R
 nav_order: 3
 title: Reading and Loading Data
-topics: read, import, pandas, csv
+topics: read, import, readr, csv
 ---
 
-In medical research and hospital informatics, data often comes from **electronic health records (EHRs)**, **lab systems**, or **survey results** — usually in formats like CSV, Excel, or JSON.
+In medical research and hospital informatics, data often comes from **electronic health records (EHRs), lab systems, or survey results** — usually in formats like CSV, Excel, or JSON.
 
-This section will teach you how to **load these files into Python using pandas**, so you can begin analyzing them effectively.
+This section will teach you how to **load these files into R**, so you can begin analyzing them effectively.
 
 {% include question.html header="Reading CSV Files" text="
 
 CSV (Comma-Separated Values) is one of the most common formats for exporting medical data — from patient logs to laboratory results.
 
-```python
-import pandas as pd
-import numpy as np
+```r
+library(readr)
+library(dplyr)
 
 # Load clinical data
-df = pd.read_csv('patients_data.csv')
-print(df.head())
+df <- read_csv(\"patients_data.csv\")
+print(head(df))
 ```
 
 **Common Parameters When Reading CSV Files**
 
-You can customize how your data is read:
-
-```python
-df_csv = pd.read_csv(
-    'data.csv',
-    sep=',',                         # Separator (default is comma)
-    header=0,                        # Row to use as column names
-    index_col=0,                     # Column to use as row index
-    na_values=['N/A', 'NULL'],       # Treat these as missing
-    parse_dates=['Admission_Date'],  # Automatically parse dates
-    encoding='utf-8'                 # File encoding
+```r
+df_csv <- read_csv(
+  \"data.csv\",
+  col_names    = TRUE,             # First row as column names
+  na           = c(\"N/A\", \"NULL\"), # Treat these as missing
+  col_types    = cols(
+    Admission_Date = col_date(format = \"%Y-%m-%d\")
+  )
 )
 ```
 
 **Creating and Saving Sample Medical Data**
 
-Let’s create a simple medical dataset that simulates patient information:
+Let's create a simple medical dataset that simulates patient information:
 
-```python
-sample_data = pd.DataFrame({
-    'Patient_ID': range(1, 101),
-    'Name': [f'Patient_{i}' for i in range(1, 101)],
-    'Age': np.random.randint(18, 80, 100),
-    'Diagnosis': np.random.choice(['Diabetes', 'Hypertension', 'Healthy'], 100),
-    'Blood_Pressure': np.random.randint(100, 180, 100),
-    'Glucose': np.random.randint(70, 200, 100),
-    'Admission_Date': pd.date_range('2024-01-01', periods=100, freq='W')
-})
+```r
+set.seed(42)
+n <- 100
+
+sample_data <- data.frame(
+  Patient_ID     = 1:n,
+  Name           = paste0(\"Patient_\", 1:n),
+  Age            = sample(18:80, n, replace = TRUE),
+  Diagnosis      = sample(c(\"Diabetes\", \"Hypertension\", \"Healthy\"), n, replace = TRUE),
+  Blood_Pressure = sample(100:180, n, replace = TRUE),
+  Glucose        = sample(70:200,  n, replace = TRUE),
+  Admission_Date = seq.Date(as.Date(\"2024-01-01\"), by = \"week\", length.out = n)
+)
 
 # Save sample data
-sample_data.to_csv('sample_patients.csv', index=False)
-print(\"Sample patient data created and saved!\")
+write_csv(sample_data, \"sample_patients.csv\")
+cat(\"Sample patient data created and saved!\n\")
 ```
-
-Now you have a CSV file that simulates a hospital registry or research cohort.
 " %}
 
 {% include question.html header="Reading Other File Formats" text="
@@ -67,86 +65,88 @@ Medical data can also come in Excel, JSON, or even databases.
 
 **Reading Excel files**
 
-```python
-df_excel = pd.read_excel('data.xlsx', sheet_name='Sheet1')
+```r
+library(readxl)
+df_excel <- read_excel(\"data.xlsx\", sheet = \"Sheet1\")
 ```
 
 **Reading JSON files**
 
-```python
-df_json = pd.read_json('data.json')
-```
+```r
+library(DBI)
+library(RSQLite)
 
-**Read SQL database (requires SQLAlchemy)**
-
-```python
-from sqlalchemy import create_engine
-engine = create_engine('sqlite:///hospital.db')
-df_sql = pd.read_sql('SELECT * FROM patients', engine)
+con    <- dbConnect(RSQLite::SQLite(), \"hospital.db\")
+df_sql <- dbGetQuery(con, \"SELECT * FROM patients\")
+dbDisconnect(con)
 ```
 
 **Working with Our Sample CSV**
 
-For our workshop, let's work with the CSV we created
+```r
+df <- read_csv(\"sample_patients.csv\")
+df$Admission_Date <- as.Date(df$Admission_Date)
 
-```python
-df = pd.read_csv('sample_patients.csv')
-df['Admission_Date'] = pd.to_datetime(df['Admission_Date'])
-
-print(\"Data loaded successfully!\")
-print(df.head())
+cat(\"Data loaded successfully!\n\")
+print(head(df))
 ```
 " %}
 
 {% include question.html header="Handling Missing Data" text="
 
-Missing data is very common in medical research — for example, when a lab result isn’t recorded or a patient skips a follow-up visit.
+Missing data is very common in medical research — for example, when a lab result isn't recorded or a patient skips a follow-up visit.
 
-Let’s simulate and handle missing values:
+Let's simulate and handle missing values:
 
-```python
-df_with_missing = df.copy()
-df_with_missing.loc[5:10, 'Glucose'] = np.nan
-df_with_missing.loc[15:20, 'Diagnosis'] = np.nan
+```r
+library(dplyr)
 
-print(\"Missing data summary:\")
-print(df_with_missing.isnull().sum())
+df_with_missing <- df
+df_with_missing$Glucose[6:11]    <- NA
+df_with_missing$Diagnosis[16:21] <- NA
+
+cat(\"Missing data summary:\n\")
+print(colSums(is.na(df_with_missing)))
 ```
 
 **Strategies for handling missing data**
 
 **Drop rows with missing values**
 
-```python
-df_dropped = df_with_missing.dropna()
+```r
+df_dropped <- na.omit(df_with_missing)
 ```
 
-**Fill missing values with default or statistical measures**
+**Fill missing values with median or a default**
 
-```python
-df_filled = df_with_missing.fillna({
-    'Glucose': df_with_missing['Glucose'].median(),
-    'Diagnosis': 'Unknown'
-})
+```r
+median_glucose <- median(df_with_missing$Glucose, na.rm = TRUE)
+
+df_filled <- df_with_missing |>
+  mutate(
+    Glucose   = ifelse(is.na(Glucose),   median_glucose, Glucose),
+    Diagnosis = ifelse(is.na(Diagnosis), \"Unknown\",      Diagnosis)
+  )
 ```
 
-**Forward fill or backward fill**
+**Forward fill using `tidyr`**
 
-```python
-df_ffill = df_with_missing.fillna(method='ffill')
+```r
+library(tidyr)
+df_ffill <- df_with_missing |> fill(Glucose, Diagnosis, .direction = \"down\")
 
-print(f\"Original shape: {df_with_missing.shape}\")
-print(f\"After dropping NaN: {df_dropped.shape}\")
-print(f\"After filling NaN: {df_filled.shape}\")
+cat(sprintf(\"Original shape:       %d rows\n\", nrow(df_with_missing)))
+cat(sprintf(\"After dropping NAs:   %d rows\n\", nrow(df_dropped)))
+cat(sprintf(\"After filling NAs:    %d rows\n\", nrow(df_filled)))
 ```
 " %}
 
 {% capture text %}
 **Key Takeaways**
 
-- **pandas** allows you to easily load, explore, and **clean real-world medical data** from CSV, Excel, JSON, or databases.
+- **readr and base R** allow you to easily load, explore, and **clean real-world medical data** from CSV, Excel, JSON, or databases.
 - **Missing data** is common in healthcare datasets — learn to handle it responsibly through **filling, dropping, or flagging**.
-- **CSV remains the most widely used format** for clinical and research data exchange.
+**- CSV remains the most widely used format** for clinical and research data exchange.
 - Understanding how to **properly import and clean data** is the first step in medical data analysis.
 {% endcapture %}
 {% include alert.html text=text color=secondary %}

@@ -1,18 +1,19 @@
-# **DMSFI-CRD Python Workshop - October 2025**
+# **DMSFI-CRD R Workshop - Sometime in 2026**
 
-Welcome to my comprehensive Python programming workshop! This intensive learning experience is designed to take you from complete beginner to confident Python programmer with practical data analysis skills.
+Welcome to my comprehensive R programming workshop! This intensive learning experience is designed to take you from complete beginner to confident R programmer with practical data analysis skills.
 
-View this material online via https://jllcalorio.github.io/data-analysis-in-python-for-complete-beginners/.
+View this material online via [https://jllcalorio.github.io/data-analysis-in-R-for-complete-beginners/](https://jllcalorio.github.io/data-analysis-in-R-for-complete-beginners/).
 
 # Workshop Overview
 
-Python has become one of the most popular and versatile programming languages in the world, powering everything from web applications to artificial intelligence systems. This workshop provides a structured, hands-on approach to learning Python programming **fundamentals** and applying them to real-world data analysis tasks. In short, we'll go to the basics.
+R has become one of the most widely used programming languages for statistics, data science, and research, enabling analysts and scientists to transform complex datasets into meaningful insights. This workshop provides a structured, hands-on introduction to the fundamentals of R programming and their application to real-world data analysis. We will focus on building a strong foundation, from understanding basic R concepts and data structures to performing essential data manipulation, visualization, and exploratory analyses.
+
 
 # Duration & Format
 
 - **Duration:** 3-day intensive workshop
 - **Format:** Hands-on learning with practical exercises
-- **Schedule:** October 2025
+- **Schedule:** Sometime in 2026
 - **Delivery:** Interactive sessions with live coding demonstrations
 
 # Learning Objectives
@@ -21,122 +22,134 @@ By the end of this workshop, participants will be able to:
 
 # Technical Skills
 
-- Master Python Fundamentals: Understand variables, data types, operators, and control structures
-- Write Functional Code: Create reusable functions and work with Python modules
-- Handle Data Effectively: Use lists, dictionaries, and string manipulation techniques
-- Perform Data Analysis: Utilize pandas for data manipulation and basic statistical analysis
-- Create Visualizations: Generate meaningful charts and graphs from data
-- Debug and Troubleshoot: Identify and resolve common programming errors
+- Master R Fundamentals: Understand variables, data types, vectors, factors, and basic programming concepts in R
+- Write Reusable Code: Create custom functions and organize analyses using scripts and packages
+- Work with Data Effectively: Import, clean, transform, and manage datasets using R
+- Perform Data Analysis: Apply descriptive and inferential statistical methods to real-world data
+- Create Data Visualizations: Generate informative and publication-ready graphs using R
+- Debug and Troubleshoot: Identify and resolve common coding and data-related issues
 
 # Practical Applications
 
-- Read and process data from various file formats
-- Filter and query datasets to extract meaningful insights
-- Perform statistical tests (t-tests, ANOVA, chi-square, logistic regression)
-- Create professional data visualizations
-- Build a foundation for advanced Python applications
+- Import and export data from various file formats (CSV, Excel, text files)
+- Filter, summarize, and transform datasets to extract meaningful insights
+- Perform statistical analyses such as t-tests, ANOVA, chi-square tests, correlation analyses, and logistic regression
+- Create professional-quality data visualizations and reports
+- Build a strong foundation for advanced applications in data science, machine learning, and research analytics
 
 # Target Audience
 
 This workshop is designed for:
 
-# Primary Audience
-
-- Students in data science, computer science, or related fields
+- Students in statistics, data science, computer science, biology, health sciences, business, or related fields
 - Complete beginners with no prior programming experience
-- Professionals looking to add Python skills to their toolkit
-- Researchers who need to analyze data programmatically
+- Professionals looking to add R and data analysis skills to their toolkit
+- Researchers who need to analyze and visualize data efficiently
 
 # Prerequisites
 
-- No programming experience required - we start from the very basics
-- Basic computer literacy (file management, using applications)
-- Willingness to learn and practice hands-on coding
-- A laptop with internet connection for installation and practice
+- No programming experience required—we start from the fundamentals
+- Basic computer literacy (file management and software installation)
+- Willingness to learn and practice through hands-on activities
+- A laptop with internet access for software installation and workshop exercises
 
-# Who Will Benefit Most
+# Who Will Benefit the Most
 
-- Individuals seeking to transition into data-driven roles
-- Students preparing for advanced coursework requiring programming
-- Professionals in fields like business, healthcare, education, or research
-- Anyone curious about programming and data analysis
+- Individuals seeking to develop data analysis and programming skills
+- Students preparing for advanced coursework involving statistics or data science
+- Researchers who want to perform reproducible analyses independently
+- Professionals in business, healthcare, education, government, or research sectors who work with data
+- Anyone interested in learning how to extract insights from data using R
 
 # Expected Outcomes
 
-- Immediate Skills (End of Workshop)
-- Confidently write basic to intermediate Python programs
-- Understand and apply fundamental programming concepts
-- Perform basic data manipulation and analysis tasks
-- Create simple visualizations from datasets
-- Debug common programming errors independently
+## Immediate Skills (End of Workshop)
 
-# Long-term Benefits
+- Confidently write basic to intermediate R scripts
+- Understand and apply fundamental programming concepts in R
+- Import, clean, and manipulate datasets
+- Perform basic statistical analyses
+- Create clear and effective data visualizations
+- Debug common programming and data analysis errors independently
 
-- **Career Advancement:** Python skills are highly valued across industries
-- **Research Capabilities:** Analyze your own data more efficiently
-- **Problem-Solving:** Develop computational thinking skills
-- **Foundation Building:** Prepared for advanced topics like machine learning
-- **Automation:** Streamline repetitive tasks in your work or studies
+## Long-term Benefits
+
+- **Career Advancement:** R is widely used in research, healthcare, government, finance, and data science industries
+- **Research Capabilities:** Analyze your own datasets more efficiently and reproducibly
+- **Problem-Solving:** Develop analytical and computational thinking skills
+- **Foundation Building:** Prepare for advanced topics such as machine learning, predictive modeling, and bioinformatics
+- **Automation:** Streamline repetitive data processing and reporting tasks
 
 # Practical Projects
 
-By workshop completion, you’ll have created:
+By workshop completion, participants will have:
 
-- A personal library of useful Python functions
-- Several data analysis projects you can showcase
-- Solutions to real-world data problems
-- A foundation for continued learning and development
+- A collection of reusable R scripts and functions
+- Several completed data analysis exercises and mini-projects
+- Experience working with real-world datasets
+- A solid foundation for continued learning in R and data science
 
 # Workshop Structure
 
-## Day 1: Foundation Building
+## Day 1: Foundations of R
 
-- Python basics and development environment setup
-- Variables, data types, and basic operations
-- Introduction to programming logic
+- Installing and setting up R and RStudio
+- Introduction to the R environment
+- Variables, data types, vectors, and basic operations
+- Basic programming concepts and workflow
 
-## Day 2: Building Complexity
+## Day 2: Data Wrangling and Programming
 
-- Control structures and functions
-- Working with modules and handling errors
-- Hands-on practice with increasingly complex problems
+- Working with data frames and tidy data principles
+- Data manipulation using dplyr
+- Writing functions and using control structures
+- Importing and exporting datasets
+- Hands-on exercises with real-world datasets
 
-## Day 3: Real-World Application
-- Data analysis with pandas
-- Statistical analysis and visualization
-- Capstone project and wrap-up
+## Day 3: Data Analysis and Visualization
+
+- Exploratory data analysis
+- Statistical testing and interpretation
+- Data visualization using ggplot2
+- Reproducible reporting and best practices
+- Capstone data analysis project and presentation
 
 # What You’ll Take Away
 
 ## Skills Portfolio
 
-- Comprehensive understanding of Python fundamentals
-- Experience with industry-standard data analysis tools
-- Portfolio of completed programming projects
-- Confidence to tackle new programming challenges
+- Strong understanding of R programming fundamentals
+- Experience using industry-standard tools for data analysis
+- A portfolio of completed coding and data analysis exercises
+- Confidence to independently explore and analyze new datasets
 
 ## Resources for Continued Learning
 
-- Complete workshop materials and code examples
-- Recommended resources for further study
-- Access to a supportive learning community
-- Clear pathways for advancing your Python skills
+- Complete workshop materials and example scripts
+- Recommended learning resources and references
+- Guidance on next steps for advancing R skills
+- Access to datasets and exercises for continued practice
 
 ### Certificate of Completion
 
-- Participants who complete all workshop activities will receive a certificate recognizing their achievement and newly acquired Python programming skills.
+Participants who complete all workshop activities will receive a certificate recognizing their achievement and newly acquired R programming and data analysis skills.
 
 # Getting Started
 
-Ready to begin your Python journey? Let’s dive into the fundamentals and start building your programming skills from the ground up. The next section will introduce you to the basic building blocks of Python programming.
+Ready to begin your R journey? Let's explore the fundamentals of R programming and discover how data can be transformed into meaningful insights.
 
-**Important:** Make sure you have Python installed on your computer before we begin. Installation instructions and setup guidance will be provided in our first session.
+**Important:** Please install the required software before the workshop. Installation guidance will also be provided during the first session.
 
-**Let's install Python in your computer!**
-1. To **download Python**, go to https://www.python.org/downloads/ and click '**Download Python x.xx.x**'. There are separate download options depending on your operating system (OS), example, Windows, macOS, Linux, etc. Double-click the downloaded file and follow the default options for installation.
-2. To **download Anaconda**, go to https://www.anaconda.com/download/success and click one of the options under "**Distribution Installers**". Double-click the downloaded file and follow the default options for installation.
-  - Anaconda is a free and open-source distribution of the Python and R programming languages for scientific computing. It simplifies package management and deployment, making it the standard choice for data science.
-3. In the **Anaconda Navigator**'s **Home** tab, scroll down and look for '**jupyter notebook**' and click 'Launch'.
-4. That's it! **We can now start** our coding journey!
+**Let's install R in your computer!**
+
+1. **Install R.** Download R from the Comprehensive R Archive Network (CRAN): [https://cran.r-project.org/](https://cran.r-project.org/). Select your operating system (Windows, macOS, or Linux), download the installer, and follow the default installation steps.
+
+2. **Install RStudio.** Download RStudio Desktop from: [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/). RStudio provides an integrated development environment (IDE) that makes writing, running, and managing R code much easier.
+
+3. **Verify Installation.** Open RStudio and run the following command in the Console. If the message appears successfully, your installation is complete.
+
+`print("Hello, R!")`
+
+4. **You're Ready!.** You now have everything needed to start learning R and performing data analysis.
 
 *This workshop is brought to you by the Senior Statistician form the Center for Research and Development. The center is committed to providing quality technical education and fostering innovation in data science and programming.*

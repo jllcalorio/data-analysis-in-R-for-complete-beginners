@@ -1,5 +1,5 @@
 ---
-section: Data Analysis with Python
+section_id: Data Analysis with R
 nav_order: 7
 title: Statistical Analysis
 topics: statistics, t-test, ANOVA, chi-square, correlation, regression
@@ -11,252 +11,251 @@ topics: statistics, t-test, ANOVA, chi-square, correlation, regression
 
 Descriptive statistics **summarize your dataset** and provide the foundation for deeper analysis.
 
-In medicine, these **metrics describe patient demographics, laboratory results, and treatment outcomes** — helping you quickly understand what’s typical or unusual in your data.
-
-Think of them as the **vital signs of your dataset** — providing a snapshot before diagnosing deeper relationships.
+In medicine, these **metrics describe patient demographics, laboratory results, and treatment outcomes** — helping you quickly understand what's typical or unusual in your data.
 
 🧪 **Common Measures**
+
 - Measures of central tendency:
-  - Mean (e.g., average blood pressure)
-  - Median (e.g., middle value of patient age)
-  - Mode (e.g., most common diagnosis)
+
+    - Mean (e.g., average blood pressure)
+    - Median (e.g., middle value of patient age)
+    - Mode (e.g., most common diagnosis)
+
 - Measures of variability:
-  - Range (e.g., youngest to oldest patient)
-  - Standard deviation (e.g., how spread out glucose levels are)
+
+    - Range (e.g., youngest to oldest patient)
+    - Standard deviation (e.g., how spread out glucose levels are)
+
 - Frequencies and proportions:
-  - Counts and percentages (e.g., 60% of patients are female)
-- Visual summaries (although this belongs to the 'Data Visualization' part, but still are descriptive in nature):
-  - Tables, histograms, pie charts — like those in journal articles or case reports
 
-
-**To start**, let's import the stuff that we need to use.
-
-```python
-from scipy import stats
-import numpy as np
-```
+    - Counts and percentages (e.g., 60% of patients are female)
 
 **Let's define a function to describe clinical data.**
 
-```python
-def describe_data(data, column_name):
-    \"\"\"Generate comprehensive descriptive statistics.\"\"\"
-    print(f\"\n=== Descriptive Statistics for {column_name} ===\")
-    print(f\"Count: {len(data)}\")
-    print(f\"Mean: {np.mean(data):.2f}\")
-    print(f\"Median: {np.median(data):.2f}\")
-    print(f\"Mode: {stats.mode(data, keepdims=True)[0][0]:.2f}\")
-    print(f\"Standard Deviation: {np.std(data, ddof=1):.2f}\")
-    print(f\"Range: {np.max(data) - np.min(data):.2f}\")
-    print(f\"IQR: {np.percentile(data, 75) - np.percentile(data, 25):.2f}\")
+```r
+describe_data <- function(x, column_name) {
+  # Generate comprehensive descriptive statistics.
+  mode_val <- as.numeric(names(sort(table(x), decreasing = TRUE)[1]))
+  iqr_val  <- IQR(x, na.rm = TRUE)
+
+  cat(sprintf(\"\n=== Descriptive Statistics for %s ===\n\", column_name))
+  cat(sprintf(\"Count:              %d\n\",    sum(!is.na(x))))
+  cat(sprintf(\"Mean:               %.2f\n\",  mean(x,   na.rm = TRUE)))
+  cat(sprintf(\"Median:             %.2f\n\",  median(x, na.rm = TRUE)))
+  cat(sprintf(\"Mode:               %.2f\n\",  mode_val))
+  cat(sprintf(\"Standard Deviation: %.2f\n\",  sd(x,     na.rm = TRUE)))
+  cat(sprintf(\"Range:              %.2f\n\",  diff(range(x, na.rm = TRUE))))
+  cat(sprintf(\"IQR:                %.2f\n\",  iqr_val))
+}
 ```
 
 **Example Use**
 
-```python
-describe_data(df['Glucose'], 'Fasting Glucose (mg/dL)')
-describe_data(df['Age'], 'Patient Age (years)')
+```r
+describe_data(df$Glucose,        \"Fasting Glucose (mg/dL)\")
+describe_data(df$Age,            \"Patient Age (years)\")
 ```
 " %}
 
-## Univariate tests
+# **Univariate Tests**
 
 {% include question.html header="t-tests" text="
 
-**One-sample t-test**
+# **One-sample t-test**
 
 Check if the **average fasting glucose** differs significantly from the normal fasting level of **100 mg/dL**.
 
-```python
-population_mean = 100
-t_stat, p_value = stats.ttest_1samp(df['Glucose'], population_mean)
+```r
+population_mean <- 100
+result <- t.test(df$Glucose, mu = population_mean)
 
-print(\"\n=== One-Sample T-Test ===\")
-print(f\"Testing if mean glucose differs from {population_mean} mg/dL\")
-print(f\"Sample mean: {df['Glucose'].mean():.2f}\")
-print(f\"T-statistic: {t_stat:.4f}\")
-print(f\"P-value: {p_value:.4f}\")
+cat(\"\n=== One-Sample T-Test ===\n\")
+cat(sprintf(\"Testing if mean glucose differs from %d mg/dL\n\", population_mean))
+cat(sprintf(\"Sample mean:   %.2f\n\",  mean(df$Glucose)))
+cat(sprintf(\"T-statistic:   %.4f\n\",  result$statistic))
+cat(sprintf(\"P-value:       %.4f\n\",  result$p.value))
 ```
 
-💡 *Clinical meaning:* A significant p-value (< 0.05) suggests that your patient group’s glucose levels are not within normal limits.
+💡 **Clinical meaning:** A significant p-value (< 0.05) suggests that your patient group's glucose levels are not within normal limits.
 
-**Two-sample t-test**
+# **Two-sample t-test**
 
-Compare **cholesterol levels** between **male** and **female** patients.
+Compare blood pressure between diabetic and hypertensive patients.
 
-```python
-male_chol = df[df['Sex'] == 'Male']['Cholesterol']
-female_chol = df[df['Sex'] == 'Female']['Cholesterol']
+```r
+bp_diabetic     <- df$Blood_Pressure[df$Diagnosis == \"Diabetes\"]
+bp_hypertensive <- df$Blood_Pressure[df$Diagnosis == \"Hypertension\"]
 
-t_stat, p_value = stats.ttest_ind(male_chol, female_chol)
+result <- t.test(bp_diabetic, bp_hypertensive)
 
-print(\"\n=== Two-Sample T-Test ===\")
-print(f\"T-statistic: {t_stat:.4f}\")
-print(f\"P-value: {p_value:.4f}\")
+cat(\"\n=== Two-Sample T-Test ===\n\")
+cat(sprintf(\"T-statistic: %.4f\n\", result$statistic))
+cat(sprintf(\"P-value:     %.4f\n\", result$p.value))
 ```
 
-💡 *Clinical meaning:* Tests if there’s a significant sex-based difference in cholesterol levels.
+💡 *Clinical meaning:* Tests if there's a significant difference in blood pressure between the two groups.
 
-**Paired t-test example (if we had before/after data)**
+# **Paired t-test example (before/after data)**
 
 Evaluate if **blood pressure medication** effectively reduces **systolic BP**.
 
-```python
-np.random.seed(42)
-bp_before = df['Systolic_BP_Before'].sample(30).values
-bp_after = df['Systolic_BP_After'].sample(30).values
+```r
+set.seed(42)
+bp_before <- sample(df$Blood_Pressure, 30)
+bp_after  <- bp_before - rnorm(30, mean = 5, sd = 10)   # Simulated reduction
 
-t_stat, p_value = stats.ttest_rel(bp_before, bp_after)
+result <- t.test(bp_before, bp_after, paired = TRUE)
 
-print(\"\n=== Paired T-Test ===\")
-print(f\"Mean before: {np.mean(bp_before):.2f}\")
-print(f\"Mean after: {np.mean(bp_after):.2f}\")
-print(f\"P-value: {p_value:.4f}\")
+cat(\"\n=== Paired T-Test ===\n\")
+cat(sprintf(\"Mean before: %.2f\n\", mean(bp_before)))
+cat(sprintf(\"Mean after:  %.2f\n\", mean(bp_after)))
+cat(sprintf(\"P-value:     %.4f\n\", result$p.value))
 ```
-
 💡 *Clinical meaning:* Determines whether treatment significantly lowered blood pressure.
 " %}
 
 {% include question.html header="ANOVA (Analysis of Variance)" text="
 
-**One-way Analysis of Variance (ANOVA)**
+# **One-way Analysis of Variance (ANOVA)**
 
-ANOVA is an extension to t-test, where there can be more than 2 groups being compared. In this case, we want to compare the **mean BMI** across **different hospital departments** (e.g., Pediatrics, Internal Medicine, Surgery).
+ANOVA is an extension to the t-test, where there can be more than 2 groups being compared. Here we compare **mean blood pressure** across **different diagnosis groups**.
 
-```python
-dept_groups = [group['BMI'].values for name, group in df.groupby('Department')]
-f_stat, p_value = stats.f_oneway(*dept_groups)
+```r
+anova_result <- aov(Blood_Pressure ~ Diagnosis, data = df)
+summary_result <- summary(anova_result)
 
-print(\"\n=== One-Way ANOVA ===\")
-print(f\"F-statistic: {f_stat:.4f}, P-value: {p_value:.4f}\")
+f_stat  <- summary_result[[1]]$`F value`[1]
+p_value <- summary_result[[1]]$`Pr(>F)`[1]
+
+cat(\"\n=== One-Way ANOVA ===\n\")
+cat(sprintf(\"F-statistic: %.4f, P-value: %.4f\n\", f_stat, p_value))
 ```
 
-💡 *Clinical meaning:* Tests if BMI differs across departments — perhaps due to varying patient populations or conditions.
+💡 *Clinical meaning:* Tests if blood pressure differs across diagnosis groups.
 
-**Post-hoc analysis** is required to be implemented if ANOVA is significant, i.e., the p-value < 0.05. This threshold is the usual threshold for significant p-values. You can be very strict and go down to 0.01, or maybe less strict by going up to 0.10. However, the latter is not very recommended because studies with these thresholds
+## **Post-hoc analysis** is required when ANOVA is significant (p-value < 0.05).
 
-- have results that are considered to have **weak evidence** and increases the risk of **Type I errors**—falsely rejecting a true null hypothesis
-- are less likely to replicate in future studies
-- Journals and reviewers may view such results as tentative or inconclusive, reducing their impact
-- can lead to overstated claims or misleading conclusions in public-facing research
-
-```python
-if p_value < 0.05:
-    print(\"\nPost-hoc pairwise comparisons:\")
-    departments = df['Department'].unique()
-    for i, dept1 in enumerate(departments):
-        for dept2 in departments[i+1:]:
-            group1 = df[df['Department'] == dept1]['BMI']
-            group2 = df[df['Department'] == dept2]['BMI']
-            _, p_val = stats.ttest_ind(group1, group2)
-            print(f\"{dept1} vs {dept2}: p = {p_val:.4f} {'*' if p_val < 0.05 else ''}\")
+```r
+if (p_value < 0.05) {
+  cat(\"\nPost-hoc pairwise comparisons (Tukey HSD):\n\")
+  print(TukeyHSD(anova_result))
+}
 ```
+A p-value threshold of 0.05 is the conventional standard. Going above (e.g., 0.10) increases the risk of:
+
+- **Type I errors **— falsely rejecting a true null hypothesis
+- Results that are **less likely to replicate** in future studies
+- Conclusions that **reviewers may view as tentative or inconclusive**
 " %}
 
 {% include question.html header="Chi-Square Tests" text="
 
-**Chi-square test of independence**
+# **Chi-square test of independence**
 
-Check if **Diagnosis** is associated with **Smoking Status**.
+Check if **Diagnosis** is associated with a **binary risk factor** (e.g., high blood pressure threshold).
 
-```python
-contingency = pd.crosstab(df['Diagnosis'], df['Smoker'])
-chi2, p, dof, exp = stats.chi2_contingency(contingency)
+```r
+df$High_BP <- ifelse(df$Blood_Pressure >= 140, \"High\", \"Normal\")
 
-print(\"\n=== Chi-Square Test of Independence ===\")
+contingency <- table(df$Diagnosis, df$High_BP)
+result      <- chisq.test(contingency)
+
+cat(\"\n=== Chi-Square Test of Independence ===\n\")
 print(contingency)
-print(f\"P-value: {p:.4f}\")
+cat(sprintf(\"P-value: %.4f\n\", result$p.value))
 ```
 
-💡 *Clinical meaning:* A significant association suggests smoking status may relate to diagnosis (e.g., higher COPD rates among smokers).
+💡 *Clinical meaning:* A significant association suggests high blood pressure may relate to diagnosis.
 
-**Chi-square goodness of fit test**
+# **Chi-square goodness of fit test**
 
-Test if **blood type distribution** follows expected population proportions.
+Test if **diagnosis distribution** follows expected population proportions.
 
-```python
-observed = df['Blood_Type'].value_counts().sort_index()
-expected_proportions = [0.44, 0.42, 0.10, 0.04]  # Example for O, A, B, AB
-expected = np.array(expected_proportions) * len(df)
+```r
+observed            <- table(df$Diagnosis)
+expected_proportions <- c(Diabetes = 0.33, Healthy = 0.34, Hypertension = 0.33)
+expected            <- expected_proportions * nrow(df)
 
-chi2, p_value = stats.chisquare(observed, expected)
-print(\"\n=== Chi-Square Goodness of Fit ===\")
-print(f\"P-value: {p_value:.4f}\")
+result <- chisq.test(observed, p = expected_proportions)
+cat(\"\n=== Chi-Square Goodness of Fit ===\n\")
+cat(sprintf(\"P-value: %.4f\n\", result$p.value))
 ```
 " %}
 
-## Correlation and Regression Analysis
+# **Correlation and Regression Analysis**
 
-**Correlation**
+{% include question.html header="Correlation" text="
 
-💡 *Clinical meaning:* Identify linear relationships (e.g., BMI positively correlating with fasting glucose).
+💡 *Clinical meaning:* Identify linear relationships (e.g., Age positively correlating with blood pressure).
 
-```python
-print(\"\n=== Correlation Analysis ===\")
-numeric_cols = ['Age', 'BMI', 'Glucose']
-corr_matrix = df[numeric_cols].corr()
-print(corr_matrix.round(3))
+```r
+cat(\"\n=== Correlation Analysis ===\n\")
+numeric_cols  <- df |> select(Age, Glucose, Blood_Pressure)
+corr_matrix   <- cor(numeric_cols, use = \"complete.obs\")
+print(round(corr_matrix, 3))
 ```
 " %}
 
 {% include question.html header="Simple Linear Regression" text="
 
-**Predict Glucose from BMI.**
+**Predict Glucose from Age.**
 
-```python
-slope, intercept, r, p, std_err = stats.linregress(df['BMI'], df['Glucose'])
-print(\"\n=== Linear Regression ===\")
-print(f\"Slope: {slope:.2f}, R²: {r**2:.3f}, P-value: {p:.4f}\")
+```r
+model   <- lm(Glucose ~ Age, data = df)
+summary_m <- summary(model)
+
+slope     <- coef(model)[\"Age\"]
+r_squared <- summary_m$r.squared
+p_value   <- summary_m$coefficients[\"Age\", \"Pr(>|t|)\"]
+
+cat(\"\n=== Linear Regression ===\n\")
+cat(sprintf(\"Slope: %.2f, R²: %.3f, P-value: %.4f\n\", slope, r_squared, p_value))
 ```
 
-💡 *Clinical meaning:* Each 1-unit increase in BMI predicts an average rise of X mg/dL in glucose.
+💡 *Clinical meaning:* Each 1-year increase in age predicts an average change of X mg/dL in glucose.
 " %}
 
 {% include question.html header="Logistic Regression" text="
 
-**Predict **presence of hypertension** (Yes/No) using **Age** and **BMI**.**
+**Predict presence of high blood pressure (Yes/No) using Age.**
 
-**Import stuff**
+Load packages
 
-```python
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix
+```r
+library(dplyr)
 ```
 
-**Set DataFrame**
+Prepare data
 
-```python
-df['Hypertensive'] = (df['Systolic_BP'] >= 140).astype(int)
+```r
+df <- df |>
+  mutate(Hypertensive = as.integer(Blood_Pressure >= 140))
 
-X = df[['Age', 'BMI']].values
-y = df['Hypertensive'].values
+set.seed(42)
+train_idx <- sample(seq_len(nrow(df)), size = floor(0.7 * nrow(df)))
+train_df  <- df[train_idx, ]
+test_df   <- df[-train_idx, ]
 ```
 
-**Split data to training and testing data sets.**
+Fit logistic regression model
 
-This is a common practice in building a regression model.
-
-```python
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+```r
+log_model <- glm(Hypertensive ~ Age + Glucose, data = train_df, family = binomial)
 ```
 
-**Fit logistic regression model.**
+Predict and evaluate
 
-```python
-log_reg = LogisticRegression()
-log_reg.fit(X_train, y_train)
-y_pred = log_reg.predict(X_test)
-```
-**Print the results.**
+```r
+pred_prob  <- predict(log_model, newdata = test_df, type = \"response\")
+pred_class <- ifelse(pred_prob > 0.5, 1, 0)
 
-```python
-print(\"\n=== Logistic Regression: Predicting Hypertension ===\")
-print(f\"Accuracy: {log_reg.score(X_test, y_test):.3f}\")
-print(\"\nClassification Report:\")
-print(classification_report(y_test, y_pred))
-print(\"\nConfusion Matrix:\")
-print(confusion_matrix(y_test, y_pred))
+accuracy <- mean(pred_class == test_df$Hypertensive)
+
+cat(\"\n=== Logistic Regression: Predicting Hypertension ===\n\")
+cat(sprintf(\"Accuracy: %.3f\n\", accuracy))
+
+cat(\"\nConfusion Matrix:\n\")
+print(table(Predicted = pred_class, Actual = test_df$Hypertensive))
 ```
 " %}
 
@@ -265,7 +264,7 @@ print(confusion_matrix(y_test, y_pred))
 
 - Use **descriptive statistics** to summarize patient data.
 - Apply **t-tests** and **ANOVA** to detect significant group differences.
-- Use **Chi-square tests** for categorical associations.
+- Use **Chi-square** tests for categorical associations.
 - **Correlation** and **regression** uncover relationships and prediction patterns.
 
 Together, these tools form the **backbone of clinical research and evidence-based medicine** — helping transform raw data into actionable insights.

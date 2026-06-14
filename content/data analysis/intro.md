@@ -1,145 +1,147 @@
 ---
-section_id: Data Analysis with Python
-nav_order: 4
-title: Data Analysis with Python
+section_id: Data Analysis with R
+nav_order: 1
+title: Data Analysis with R
 topics: introduction, data analysis, statistics, modules
 ---
 
-## Welcome to the exciting world of data analysis!
+# **Welcome to the exciting world of data analysis!**
 
-This section will help you move beyond basic Python programming and show you how to turn **health and clinical data** into meaningful insights that can inform **patient care, research, and medical education**.
+This section will help you move beyond basic R programming and show you how to turn health and clinical data into meaningful insights that can inform patient care, research, and medical education.
 
-You’ll learn to use powerful Python libraries such as:
+You'll learn to use powerful R packages such as:
 
-- **pandas** — for cleaning and analyzing patient datasets
-- **matplotlib** and **seaborn** — for creating clear, evidence-based visualizations
-- **scipy** — for performing statistical tests and clinical comparisons
+- `dplyr` — for cleaning and analyzing patient datasets
+- `ggplot2` — for creating clear, evidence-based visualizations
+- `stats` (built-in) — for performing statistical tests and clinical comparisons
 
-By the end of this section, you’ll be able to:
+By the end of this section, you'll be able to:
 
 - **Load and explore datasets** from sources such as hospital records or surveys
 - **Clean and transform** messy data (e.g., missing values in lab tests)
 - **Visualize patterns** such as blood pressure trends or lab result distributions
 - **Perform basic statistical analyses** to support clinical and research conclusions
 
-## Introduction to Data Analysis Libraries
+# **Introduction to Data Analysis Packages**
 
-{% include question.html header="Essential libraries" text="
+{% include question.html header="Essential packages" text="
 
-Before diving into analysis, let’s explore the core Python libraries that make data analysis possible — and how they apply to the medical field.
+Before diving into analysis, let's explore the core R packages that make data analysis possible — and how they apply to the medical field.
 
-```python
-import pandas as pd              # Data manipulation and analysis
-import numpy as np               # Numerical computing
-import matplotlib.pyplot as plt  # Basic plotting
-import seaborn as sns            # Statistical data visualization
-from scipy import stats          # Statistical functions
+```r
+library(dplyr)     # Data manipulation and analysis
+library(tidyr)     # Data reshaping
+library(ggplot2)   # Data visualization
+library(readr)     # Fast CSV reading
+```
+
+These packages are all part of the tidyverse — a coherent collection of R packages designed for data science. You can install them all at once:
+
+```r
+install.packages(\"tidyverse\")
+library(tidyverse)
 ```
 " %}
 
-{% include question.html header="1. pandas — For Data Manipulation" text="
-**What it does:** Handles tabular data (like Excel sheets or patient records).
+{% include question.html header="1. dplyr — For Data Manipulation" text="
+What it does: Handles tabular data (like Excel sheets or patient records) using intuitive, readable verbs.
 
-You can filter, summarize, and transform data easily.
-
-```python
-import pandas as pd
+```r
+library(dplyr)
 
 # Example patient dataset
-data = {'Name': ['Ana', 'Luis', 'Maria'],
-        'Age': [34, 45, 29],
-        'Blood_Pressure': [120, 135, 110]}
-df = pd.DataFrame(data)
+data <- data.frame(
+  Name           = c(\"Ana\", \"Luis\", \"Maria\"),
+  Age            = c(34, 45, 29),
+  Blood_Pressure = c(120, 135, 110)
+)
 
 # View average blood pressure
-print(\"Average BP:\", df['Blood_Pressure'].mean())
+mean(data$Blood_Pressure)
 ```
-
 💡*Use case:* Compute the average blood pressure of patients in a study.
 " %}
 
-{% include question.html header="2. numpy — For Numerical Calculations" text="
-**What it does:** Performs fast mathematical operations on arrays and matrices.
+{% include question.html header="2. Base R — For Numerical Calculations" text="
+What it does: Performs fast mathematical operations on vectors and matrices — no extra package needed.
 
-```python
-import numpy as np
-
+```r
 # Systolic blood pressure readings
-bp = np.array([120, 130, 110, 125, 140])
+bp <- c(120, 130, 110, 125, 140)
 
 # Compute mean and standard deviation
-print(\"Mean BP:\", np.mean(bp))
-print(\"SD BP:\", np.std(bp))
+cat(\"Mean BP:\", mean(bp), \"\n\")
+cat(\"SD BP:\",   sd(bp),   \"\n\")
 ```
-
 💡*Use case:* Analyze variability in blood pressure readings from a clinical trial.
 " %}
 
-{% include question.html header="3. matplotlib — For Basic Visualization" text="
-**What it does:** Creates simple plots and charts.
+{% include question.html header="3. ggplot2 — For Visualization" text="
+What it does: Creates elegant, layered plots and charts.
 
-```python
-import matplotlib.pyplot as plt
+```r
+library(ggplot2)
 
-ages = [23, 45, 34, 50, 29]
-plt.hist(ages, bins=5)
-plt.title(\"Age Distribution of Study Participants\")
-plt.xlabel(\"Age\")
-plt.ylabel(\"Count\")
-plt.show()
+ages <- c(23, 45, 34, 50, 29)
+df_ages <- data.frame(Age = ages)
+
+ggplot(df_ages, aes(x = Age)) +
+  geom_histogram(bins = 5, fill = \"steelblue\", color = \"white\") +
+  labs(
+    title = \"Age Distribution of Study Participants\",
+    x     = \"Age\",
+    y     = \"Count\"
+  ) +
+  theme_bw()
 ```
-
 💡 *Use case:* Visualize the age distribution of your study participants.
 " %}
 
-{% include question.html header="4. seaborn — For Statistical Data Visualization" text="
-**What it does:** Makes elegant and easy statistical plots.
+{% include question.html header="4. ggplot2 — For Statistical Data Visualization" text="
+What it does: Makes elegant statistical plots with very little code.
 
-```python
-import seaborn as sns
-import pandas as pd
+```r
+library(ggplot2)
 
-df = pd.DataFrame({
-    'Gender': ['Male', 'Female', 'Female', 'Male'],
-    'Cholesterol': [190, 170, 210, 200]
-})
+df <- data.frame(
+  Gender      = c(\"Male\", \"Female\", \"Female\", \"Male\"),
+  Cholesterol = c(190, 170, 210, 200)
+)
 
-sns.boxplot(x='Gender', y='Cholesterol', data=df)
-plt.title(\"Cholesterol Levels by Gender\")
-plt.show()
+ggplot(df, aes(x = Gender, y = Cholesterol, fill = Gender)) +
+  geom_boxplot() +
+  labs(title = \"Cholesterol Levels by Gender\") +
+  theme_bw()
 ```
-
 💡 *Use case:* Compare cholesterol levels across genders or groups.
 " %}
 
-{% include question.html header="5. scipy — For Statistical Analysis" text="
-**What it does:** Performs statistical tests, correlations, and probability functions.
+{% include question.html header="5. stats — For Statistical Analysis" text="
+What it does: Performs statistical tests, correlations, and probability functions. It is built into R — no installation needed.
 
-```python
-from scipy import stats
-
+```r
 # Two groups of fasting blood sugar values
-group_A = [95, 100, 110, 120, 130]
-group_B = [90, 92, 88, 85, 93]
+group_A <- c(95, 100, 110, 120, 130)
+group_B <- c(90,  92,  88,  85,  93)
 
-t_stat, p_value = stats.ttest_ind(group_A, group_B)
-print(\"t-statistic:\", t_stat)
-print(\"p-value:\", p_value)
+result  <- t.test(group_A, group_B)
+cat(\"t-statistic:\", result$statistic, \"\n\")
+cat(\"p-value:\",     result$p.value,   \"\n\")
 ```
-
-💡 *Use case:* Compare two treatment groups’ fasting blood sugar levels.
+💡 *Use case:* Compare two treatment groups' fasting blood sugar levels.
 " %}
 
 {% capture text %}
 **In short**
 
-Python offers powerful tools for **handling, visualizing, and analyzing data**.
+R offers powerful tools for **handling, visualizing, and analyzing data**.
 
-- **pandas** is your best friend for managing patient records or clinical datasets.
-- **numpy** enables fast, vectorized calculations on medical measurements.
-- **matplotlib** and **seaborn** help you visualize trends clearly for research or presentations.
-- **scipy** provides statistical tools to support evidence-based conclusions.
+- `dplyr` is your best friend for managing patient records or clinical datasets.
+- **Base R** enables fast, vectorized calculations on medical measurements.
+- `ggplot2` helps you visualize trends clearly for research or presentations.
+- `stats` (built-in) provides statistical tools to support evidence-based conclusions.
 
-Together, these libraries form the foundation of data analytics in Python.
+
+Together, these packages form the foundation of data analytics in R.
 {% endcapture %}
 {% include alert.html text=text color=secondary %}
