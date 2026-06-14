@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate R
-nav_order: 7
+section: Intermediate R
+nav_order: 9
 title: Summary
 topics: summary, next steps
 ---

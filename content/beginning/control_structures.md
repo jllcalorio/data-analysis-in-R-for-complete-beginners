@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 9
 title: Control structures
 topics: loop, if, for, while, functions
@@ -24,6 +24,9 @@ if (age >= 60 & bp > 140) {
 } else {
   print(\"Low-risk: Maintain routine check-ups.\")
 }
+
+# Output
+# \"High-risk: Schedule follow-up consultation.\"
 ```
 
 The code above helps automatically classify patients based on age and blood pressure (`bp`) readings, similar to decision rules used in clinical triage systems.
@@ -91,6 +94,12 @@ while (count < 5) {
   cat(\"Count is\", count, \"\n\")
   count <- count + 1
 }
+
+# Output:
+# Count is 0
+# Count is 1
+# Count is 2
+# Count is 3
 ```
 
 **`while` loop with a break condition**
@@ -103,7 +112,21 @@ while (user_input != \"quit\") {
     cat(\"You entered:\", user_input, \"\n\")
   }
 }
+
+# Output
+# Enter a command (or 'quit' to exit): 10
+# You entered: 10 
+# Enter a command (or 'quit' to exit): 5
+# You entered: 5 
+# Enter a command (or 'quit' to exit): 1
+# You entered: 1 
+# Enter a command (or 'quit' to exit): 0
+# You entered: 0 
+# Enter a command (or 'quit' to exit): quit
 ```
+
+After the user inputs the word \"quit\", the loop ends.
+
 Note: `readline()` is used for interactive console input in R. In scripts or R Markdown, user input is typically handled differently.
 " %}
 
@@ -136,17 +159,17 @@ calculate_area <- function(length, width) {
 }
 ```
 
-**Using functions**
+**Using the functions**
 
 ```r
 message   <- greet(\"Alice\")
-print(message)    # Hello, Alice !
+print(message)                                # Hello, Alice !
 
-intro <- introduce(\"Bob\")   # Uses default age
-print(intro)                 # Hi, I'm Bob and I'm 25 years old.
+intro <- introduce(\"Bob\")                     # Uses default age
+print(intro)                                  # Hi, I'm Bob and I'm 25 years old.
 
 room_area <- calculate_area(10, 12)
-cat(\"Room area:\", room_area, \"square feet\n\")
+cat(\"Room area:\", room_area, \"square feet\n\") # Room area: 120 square feet
 ```
 " %}
 
@@ -168,7 +191,7 @@ classify_bmi <- function(weight_in_kg, height_in_meters) {
   }
 }
 
-print(classify_bmi(70, 1.75))
+print(classify_bmi(70, 1.75))       # \"Normal\"
 ```
 " %}
 

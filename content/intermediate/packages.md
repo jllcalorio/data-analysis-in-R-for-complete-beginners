@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate R
-nav_order: 4
+section: Intermediate R
+nav_order: 6
 title: Packages
 topics: package, library, source, script
 ---
@@ -89,7 +89,7 @@ source(\"medical_calculator.R\")
 bmi_value <- bmi(65, 1.68)
 map_value <- mean_arterial_pressure(118, 76)
 
-cat(sprintf(\"BMI: %.2f\n\", bmi_value))
+cat(sprintf(\"BMI: %.2f\n\",                         bmi_value))
 cat(sprintf(\"Mean Arterial Pressure: %.1f mmHg\n\", map_value))
 ```
 
@@ -98,8 +98,8 @@ cat(sprintf(\"Mean Arterial Pressure: %.1f mmHg\n\", map_value))
 Because **source()** loads everything in the file, all functions are immediately available in your environment. You can then call any of them directly:
 
 ```r
-cat(sprintf(\"BMI: %.2f\n\",         bmi(58, 1.60)))
-cat(sprintf(\"BSA: %.2f\n\",         bsa(58, 160)))
+cat(sprintf(\"BMI: %.2f\n\",           bmi(58, 1.60)))
+cat(sprintf(\"BSA: %.2f\n\",           bsa(58, 160)))
 cat(sprintf(\"Temperature: %.1f°F\n\", temperature_c_to_f(37)))
 ```
 " %}

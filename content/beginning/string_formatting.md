@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 8
 title: String Formatting
 topics: string, format
@@ -14,7 +14,10 @@ name      <- \"Dr. Santos\"
 diagnosis <- \"Hypertension\"
 
 message <- paste(\"Patient seen by\", name, \"with\", diagnosis)
-print(message)
+print(message) 
+
+# Output
+# \"Patient seen by Dr. Santos with Hypertension\"
 ```
 
 To format numbers (e.g., decimals), use `sprintf()`:
@@ -36,7 +39,7 @@ text <- \"  Hypertension Stage II  \"
 print(toupper(text))                           # \"  HYPERTENSION STAGE II  \"
 print(tolower(text))                           # \"  hypertension stage ii  \"
 print(trimws(text))                            # \"Hypertension Stage II\" (removes whitespace)
-print(gsub(\"Stage II\", \"Stage I\", text))   # Replaces text
+print(gsub(\"Stage II\", \"Stage I\", text))       # \"  Hypertension Stage I  \" (Replaces text)
 ```
 " %}
 
@@ -47,8 +50,8 @@ medications <- \"Aspirin,Metformin,Lisinopril\"
 med_list    <- strsplit(medications, \",\")[[1]]        # Split into a vector
 rejoined    <- paste(med_list, collapse = \" | \")      # Join back with a separator
 
-print(med_list)
-print(rejoined)
+print(med_list)                                       # \"Aspirin\"    \"Metformin\"  \"Lisinopril\"
+print(rejoined)                                       # \"Aspirin | Metformin | Lisinopril\"
 ```
 " %}
 

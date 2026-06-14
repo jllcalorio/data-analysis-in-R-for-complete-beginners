@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 7
 title: Named Lists
 topics: list, store values, key-value pairs
@@ -62,7 +62,7 @@ You can access items using the `$` symbol or double brackets `[[ ]]`
 
 ```r
 patient_record$bp         <- \"130/85\"   # Update blood pressure
-patient_record$heart_rate <- 72          # Add new key-value pair
+patient_record$heart_rate <- 72         # Add new key-value pair, added at the end of the list
 
 print(patient_record)
 # $name

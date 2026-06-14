@@ -140,10 +140,10 @@ helps us create better learning experiences for everyone.
 
 {% include question.html header="Books for Continued Learning" text="
 
-- *"R for Data Science"* by Hadley Wickham & Garrett Grolemund
-- *"The Art of R Programming"* by Norman Matloff
-- *"R in Action"* by Robert Kabacoff
-- *"Introduction to Statistical Learning with R"* by James, Witten, Hastie & Tibshirani (free PDF available)
+- *\"R for Data Science\"* by Hadley Wickham & Garrett Grolemund
+- *\"The Art of R Programming\"* by Norman Matloff
+- *\"R in Action\"* by Robert Kabacoff
+- *\"Introduction to Statistical Learning with R\"* by James, Witten, Hastie & Tibshirani (free PDF available)
 " %}
 
 {% include question.html header="Practice Platforms" text="

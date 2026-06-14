@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate Python
-nav_order: 1
+section: Intermediate R
+nav_order: 4
 title: Writing Functions
 topics: functions
 ---
@@ -55,7 +55,34 @@ patient1 <- create_profile(\"Ana Santos\", 35)
 patient2 <- create_profile(\"Miguel Cruz\", 58, \"Davao\", \"Hypertension\")
 
 print(patient1)   # city and diagnosis use defaults
+
+# Output
+# $name
+# [1] \"Ana Santos\"
+
+# $age
+# [1] 35
+
+# $city
+# [1] \"Davao\"
+
+# $diagnosis
+# [1] \"Not yet diagnosed\"
+
 print(patient2)   # all parameters specified
+
+# Output
+# $name
+# [1] \"Miguel Cruz\"
+
+# $age
+# [1] 58
+
+# $city
+# [1] \"Davao\"
+
+# $diagnosis
+# [1] \"Hypertension\"
 ```
 " %}
 
@@ -89,7 +116,7 @@ Use the functions:
 
 ```r
 avg_glucose <- calculate_average(92, 110, 87, 105)
-cat(sprintf(\"Average Glucose: %.1f mg/dL\n\", avg_glucose))
+cat(sprintf(\"Average Glucose: %.1f mg/dL\n\", avg_glucose))  # Average Glucose: 98.5 mg/dL
 
 patient <- create_patient_record(
   \"Maria Dela Cruz\",
@@ -99,6 +126,22 @@ patient <- create_patient_record(
   last_visit  = \"2025-09-10\"
 )
 print(patient)
+
+# Output
+# $name
+# [1] \"Maria Dela Cruz\"
+
+# $age
+# [1] 47
+
+# $condition
+# [1] \"Diabetes\"
+
+# $medications
+# [1] \"Metformin\" \"Insulin\"  
+
+# $last_visit
+# [1] \"2025-09-10\"
 ```
 " %}
 
@@ -111,9 +154,10 @@ R supports anonymous (inline) functions — compact, one-line functions useful f
 bmi <- function(weight, height) weight / (height ^ 2)
 
 # Anonymous function equivalent (R 4.1+ shorthand)
-bmi_anon <- \\(weight, height) weight / (height ^ 2)
+bmi_anon <- \(weight, height) weight / (height ^ 2)
 
 print(bmi_anon(70, 1.75))   # Output: 22.85714
+print(bmi(70, 1.75))        # Same output
 ```
 
 Filtering a list of patients using `Filter()`:
@@ -126,8 +170,16 @@ patients <- list(
 )
 
 # Get only overweight patients (BMI >= 25)
-overweight <- Filter(\\(p) p$bmi >= 25, patients)
+overweight <- Filter(\(p) p$bmi >= 25, patients)
 print(overweight)
+
+# Output
+# [[1]]
+# [[1]]$name
+# [1] \"Ben\"
+
+# [[1]]$bmi
+# [1] 29.8
 ```
 
 **Advantages of anonymous functions:**
@@ -144,7 +196,7 @@ Another example using `sapply()`:
 
 ```r
 numbers <- 1:5
-squared <- sapply(numbers, \\(x) x ^ 2)
+squared <- sapply(numbers, \(x) x ^ 2)
 print(squared)   # 1  4  9 16 25
 
 students <- list(
@@ -153,8 +205,24 @@ students <- list(
   list(name = \"Charlie\", grade = 78)
 )
 
-high_performers <- Filter(\\(s) s$grade >= 85, students)
+high_performers <- Filter(\(s) s$grade >= 85, students)
 print(high_performers)
+
+# Output
+# [[1]]
+# [[1]]$name
+# [1] \"Alice\"
+
+# [[1]]$grade
+# [1] 85
+
+
+# [[2]]
+# [[2]]$name
+# [1] \"Bob\"
+
+# [[2]]$grade
+# [1] 92
 ```
 " %}
 

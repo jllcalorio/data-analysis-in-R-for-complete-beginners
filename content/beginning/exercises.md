@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 10
 title: Practice Exercises
 topics: exercises
@@ -41,7 +41,7 @@ med_inventory <- med_inventory[med_inventory != \"Ibuprofen\"]   # Remove discon
 
 cat(\"Medication Inventory:\n\")
 for (i in seq_along(med_inventory)) {
-  cat(i, \".\", med_inventory[i], \"\n\", sep = \"\")
+  cat(i, \". \", med_inventory[i], \"\n\", sep = \"\")
 }
 ```
 " %}

@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate R
-nav_order: 2
+section: Intermediate R
+nav_order: 5
 title: Importing Functions from Packages
 topics: import, function, module
 ---
@@ -15,7 +15,31 @@ Below are the common ways to load packages that are already built by other devel
 
 ```r
 library(dplyr)
-result <- filter(df, age > 60)   # Use package functions directly
+
+# Create a sample data
+sample_df <- data.frame(
+  Patient_ID  = 101:105,
+  Name        = c(\"Ana\", \"Luis\", \"Maria\", \"Jose\", \"Carmen\"),
+  Age         = c(34, 45, 29, 50, 41)
+)
+
+# This is what sample_df looks like:
+print(sample_df)
+#   Patient_ID   Name Age
+# 1        101    Ana  34
+# 2        102   Luis  45
+# 3        103  Maria  29
+# 4        104   Jose  50
+# 5        105 Carmen  41
+
+result <- filter(sample_df, Age > 40)   # Use package functions directly
+
+# This is what the filtered data looks like:
+print(result)
+#   Patient_ID   Name Age
+# 1        102   Luis  45
+# 2        104   Jose  50
+# 3        105 Carmen  41
 ```
 
 Install a package first (if not already installed)
@@ -30,7 +54,7 @@ Use a function from a package without loading it
 You can call a single function from a package using `::` without loading the whole package.
 
 ```r
-result <- dplyr::filter(df, age > 60)
+result <- dplyr::filter(sample_df, Age > 40)
 ```
 
 This is useful when you only need one function, or when two packages have functions with the same name.
@@ -107,6 +131,8 @@ print(shuffled)   # Vector is now shuffled
 ```r
 set.seed(42)
 sample(1:100, 1)   # Will always return the same value with seed 42
+
+# The result will always be 49
 ```
 " %}
 
@@ -200,9 +226,9 @@ bill  <- 85.50
 tip   <- calculate_tip(bill, 18)
 total <- bill + tip
 
-cat(sprintf(\"Bill:  PHP %.2f\n\", bill))
-cat(sprintf(\"Tip:   PHP %.2f\n\", tip))
-cat(sprintf(\"Total: PHP %.2f\n\", total))
+cat(sprintf(\"Bill:  PHP %.2f\n\", bill))    # Bill:  PHP 85.50
+cat(sprintf(\"Tip:   PHP %.2f\n\", tip))     # Tip:   PHP 15.39
+cat(sprintf(\"Total: PHP %.2f\n\", total))   # Total: PHP 100.89
 ```
 " %}
 

@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate R
-nav_order: 6
+section: Intermediate R
+nav_order: 8
 title: Simple Exercises with Solutions
 topics: exercises
 ---

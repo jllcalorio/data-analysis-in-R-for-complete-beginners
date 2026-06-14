@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 5
 title: Operators
 topics: arithmetic, comparison, logical, assignment, operators
@@ -27,6 +27,9 @@ height_m  <- 1.75
 ```r
 bmi <- weight_kg / (height_m ^ 2)
 print(bmi)   # BMI calculation using division and exponentiation
+
+# Output
+# 22.85714
 ```
 
 **Basic arithmetic**
@@ -56,13 +59,13 @@ In case you want to try other variables:
 a <- 10
 b <- 3
 
-print(a + b)      # Addition:       13
-print(a - b)      # Subtraction:     7
-print(a * b)      # Multiplication: 30
-print(a / b)      # Division:        3.333...
+print(a + b)      # Addition:         13
+print(a - b)      # Subtraction:      7
+print(a * b)      # Multiplication:   30
+print(a / b)      # Division:         3.333...
 print(a %/% b)    # Integer division: 3
 print(a %% b)     # Modulus:          1
-print(a ^ b)      # Exponentiation: 1000  (same as a^b = 10^3)
+print(a ^ b)      # Exponentiation:   1000  (same as a^b = 10^3)
 ```
 
 Remember that PEMDAS stands for?
@@ -90,8 +93,8 @@ patient_temp <- 38.2
 normal_temp  <- 37.0
 
 print(patient_temp == normal_temp)   # FALSE, temperature is not equal
-print(patient_temp > normal_temp)    # TRUE,  patient has fever
-print(patient_temp < normal_temp)    # FALSE, not lower
+print(patient_temp >  normal_temp)   # TRUE,  patient has fever
+print(patient_temp <  normal_temp)   # FALSE, not lower
 print(patient_temp >= 38.0)          # TRUE,  borderline fever
 print(patient_temp != normal_temp)   # TRUE,  definitely different
 ```
@@ -124,7 +127,7 @@ patient_count <- patient_count - 3    # 3 discharged
 patient_count <- patient_count * 1.05 # 5% increase projected
 patient_count <- patient_count / 2    # Split between two wards
 
-print(patient_count)                  # Output: 51.975
+print(patient_count)                  # Output: 53.55
 ```
 " %}
 

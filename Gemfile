@@ -4,4 +4,8 @@ source "https://rubygems.org"
 
 gem "jekyll"
 gem "bundler"
-gem "wdm", ">= 0.1.0"
+gem "logger"
+
+platforms :windows do
+  gem "wdm", ">= 0.1.0"
+end

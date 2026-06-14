@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 4
 title: Basic Data Types
 topics: data type, numeric, integer, character, logical
@@ -57,7 +57,7 @@ is_smoker     <- FALSE
 {% include question.html header="On to Checking Data Types" text="
 
 You can use the `class()` function to check the data type of any variable.
-For example, is a lab result value "42" stored as text or as a number?
+For example, is a lab result value \"42\" stored as text or as a number?
 
 " solution="
 ```r
@@ -93,6 +93,9 @@ We can also do the reverse.
 patient_bmi <- 22.5
 bmi_str     <- as.character(patient_bmi)
 cat(\"Patient BMI is\", bmi_str, \"\n\")
+
+# Output
+# Patient BMI is 22.5 
 ```
 " %}
 
@@ -114,10 +117,10 @@ When converting from `numeric` to `integer`, **R removes (truncates) the decimal
 
 {% include question.html header="Logical conversions" text="
 ```r
-as.logical(1)    # TRUE  → e.g., 1 could represent \"Yes\" in a dataset
-as.logical(0)    # FALSE → e.g., 0 could represent \"No\"
-as.logical(\"\")   # NA    → empty strings become missing in R
-as.logical(\"Yes\") # NA  → only \"TRUE\"/\"FALSE\"/\"T\"/\"F\" are recognized
+as.logical(1)     # TRUE  → e.g., 1 could represent \"Yes\" in a dataset
+as.logical(0)     # FALSE → e.g., 0 could represent \"No\"
+as.logical(\"\")    # NA    → empty strings become missing in R
+as.logical(\"Yes\") # NA    → only \"TRUE\"/\"FALSE\"/\"T\"/\"F\" are recognized
 ```
 Note: Unlike `Python`, `R` does not treat arbitrary non-empty strings as `TRUE`. Use explicit `TRUE`/`FALSE` values in your data wherever possible.
 " %}

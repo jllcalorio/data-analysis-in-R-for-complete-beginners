@@ -1,6 +1,6 @@
 ---
 section_id: Data Analysis with R
-nav_order: 1
+nav_order: 4
 title: Data Analysis with R
 topics: introduction, data analysis, statistics, modules
 ---
@@ -35,6 +35,15 @@ library(ggplot2)   # Data visualization
 library(readr)     # Fast CSV reading
 ```
 
+There will be times when there are warning messages such as:
+
+```r
+Warning message:
+package ‘ggplot2’ was built under R version 4.5.3 
+```
+
+and it's completely fine. The warning message just means that the package in question was created in an R version that is lower than your current version.
+
 These packages are all part of the tidyverse — a coherent collection of R packages designed for data science. You can install them all at once:
 
 ```r
@@ -57,7 +66,7 @@ data <- data.frame(
 )
 
 # View average blood pressure
-mean(data$Blood_Pressure)
+mean(data$Blood_Pressure)                               # 121.6667
 ```
 💡*Use case:* Compute the average blood pressure of patients in a study.
 " %}
@@ -70,8 +79,8 @@ What it does: Performs fast mathematical operations on vectors and matrices — 
 bp <- c(120, 130, 110, 125, 140)
 
 # Compute mean and standard deviation
-cat(\"Mean BP:\", mean(bp), \"\n\")
-cat(\"SD BP:\",   sd(bp),   \"\n\")
+cat(\"Mean BP:\", mean(bp), \"\n\")           # Mean BP: 125
+cat(\"SD BP:\",   sd(bp),   \"\n\")           # SD BP: 11.18034 
 ```
 💡*Use case:* Analyze variability in blood pressure readings from a clinical trial.
 " %}
@@ -82,20 +91,38 @@ What it does: Creates elegant, layered plots and charts.
 ```r
 library(ggplot2)
 
-ages <- c(23, 45, 34, 50, 29)
+ages <- c(23, 45, 34, 50, 29, 45, 29, 23)
 df_ages <- data.frame(Age = ages)
 
 ggplot(df_ages, aes(x = Age)) +
-  geom_histogram(bins = 5, fill = \"steelblue\", color = \"white\") +
+  geom_histogram(
+    bins  = 5,
+    fill  = \"#2C7FB8\",
+    color = \"white\"
+  ) +
   labs(
     title = \"Age Distribution of Study Participants\",
-    x     = \"Age\",
+    x     = \"Age (Years)\",
     y     = \"Count\"
   ) +
-  theme_bw()
+  theme_classic(base_size = 35) +
+  theme(
+    plot.title = element_text(
+      face     = \"bold\",
+      size     = 20,
+      hjust    = 0.5
+    ),
+    axis.title = element_text(
+      face     = \"bold\",
+      size     = 20
+    ),
+    axis.text = element_text(size = 20)
+  )
 ```
 💡 *Use case:* Visualize the age distribution of your study participants.
 " %}
+
+{% include figure.html img="age_dist.png" alt="age distribution plot" caption="" width="100%" %}
 
 {% include question.html header="4. ggplot2 — For Statistical Data Visualization" text="
 What it does: Makes elegant statistical plots with very little code.
@@ -109,12 +136,39 @@ df <- data.frame(
 )
 
 ggplot(df, aes(x = Gender, y = Cholesterol, fill = Gender)) +
-  geom_boxplot() +
-  labs(title = \"Cholesterol Levels by Gender\") +
-  theme_bw()
+  geom_boxplot(
+    width         = 0.5,
+    alpha         = 0.8,
+    linewidth     = 0.7,
+    outlier.shape = NA
+  ) +
+  labs(
+    title = \"Cholesterol Levels by Gender\",
+    x     = \"Gender\",
+    y     = \"Cholesterol (mg/dL)\"
+  ) +
+  theme_classic(base_size = 35) +
+  theme(
+    plot.title = element_text(
+      face     = \"bold\",
+      size     = 20,
+      hjust    = 0.5
+    ),
+    axis.title = element_text(
+      face     = \"bold\",
+      size     = 20
+    ),
+    axis.text = element_text(
+      size    = 20,
+      color   = \"black\"
+    ),
+    legend.position = \"none\"
+  )
 ```
 💡 *Use case:* Compare cholesterol levels across genders or groups.
 " %}
+
+{% include figure.html img="box_plot.png" alt="box plot" caption="" width="100%" %}
 
 {% include question.html header="5. stats — For Statistical Analysis" text="
 What it does: Performs statistical tests, correlations, and probability functions. It is built into R — no installation needed.
@@ -125,8 +179,8 @@ group_A <- c(95, 100, 110, 120, 130)
 group_B <- c(90,  92,  88,  85,  93)
 
 result  <- t.test(group_A, group_B)
-cat(\"t-statistic:\", result$statistic, \"\n\")
-cat(\"p-value:\",     result$p.value,   \"\n\")
+cat(\"t-statistic:\", result$statistic, \"\n\")     # t-statistic: 3.261195 
+cat(\"p-value:\",     result$p.value,   \"\n\")     # p-value: 0.02700263
 ```
 💡 *Use case:* Compare two treatment groups' fasting blood sugar levels.
 " %}

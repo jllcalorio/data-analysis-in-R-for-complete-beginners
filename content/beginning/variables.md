@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 3
 title: Variables
 topics: variable, data, values, comments
@@ -69,6 +69,7 @@ bp_2 <- 130
 
 # Calculate average blood pressure
 average_bp <- (bp_1 + bp_2) / 2
+average_bp                           # 125
 ```
 " %}
 

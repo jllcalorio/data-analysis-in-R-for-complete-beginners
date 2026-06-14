@@ -1,6 +1,6 @@
 ---
-section_id: Intermediate R
-nav_order: 5
+section: Intermediate R
+nav_order: 7
 title: Errors and Exception Handling
 topics: errors
 ---
@@ -14,9 +14,9 @@ topics: errors
 These occur when R cannot parse your code due to incorrect syntax. They prevent the script from running entirely.
 
 ```r
-print(\"Patient record loaded\"    # Missing closing parenthesis
-if (age = 45) {                  # Should use == not =
-print(\"Valid age\")               # Improperly placed brace
+print(\"Patient record loaded\"
+if (age = 45) {
+print(\"Valid age\")
 ```
 
 **Pop quiz**
@@ -27,7 +27,7 @@ Where do you think the errors are?
 ```r
 1. Missing closing parenthesis on the print() call
 2. The condition should use == (comparison) instead of = (assignment)
-3. Missing opening brace { for the if block
+3. Missing closing brace } for the if block
 ```
 " %}
 
@@ -40,7 +40,7 @@ These occur **during execution** — the syntax is correct, but something unexpe
 log(-1)                  # NaN with a warning
 c(1, 2, 3)[10]           # NA — out-of-range index returns NA
 as.integer(\"fever\")      # NA with a warning
-nonexistent_object       # Error: object not found
+nonexistent_object       # Error: object 'nonexistent_object' not found
 ```
 
 **Note:** R is more lenient than many languages — division by zero gives `Inf`, and many type errors give `NA` with a warning rather than stopping execution. This makes it important to always check your results!
@@ -70,13 +70,15 @@ safe_bmi <- function(weight, height) {
   })
 }
 
-result1 <- safe_bmi(60, 1.65)
+result1 <- safe_bmi(60, 1.65)   # 22.03857
 result2 <- safe_bmi(70, 0)
 ```
 
 **Output for result2:**
 
 `Error: Height cannot be zero!`
+
+`NULL`
 " %}
 
 {% include question.html header="Handling Warnings and Multiple Conditions" text="
@@ -105,10 +107,12 @@ get_patient_age <- function(age_input) {
 }
 
 year <- get_patient_age(\"35\")
-if (!is.null(year)) cat(\"You were born in\", year, \"\n\")
+if (!is.null(year)) cat(\"You were born in\", year, \"\n\") # You were born in 1990 
 
-get_patient_age(\"fever\")
-get_patient_age(-5)
+get_patient_age(\"fever\")                                # Warning: NAs introduced by coercion 
+                                                        # NULL
+get_patient_age(-5)                                     # Invalid input: Age cannot be negative. 
+                                                        # NULL
 ```
 " %}
 
@@ -138,6 +142,21 @@ read_patient_file <- function(filename) {
     }
   })
 }
+```
+
+**Note:**
+
+- The file must be in your current working directory. If not, the following error will show:
+
+```r
+read_patient_file(\"nonexistent_file.csv\")
+
+# Output
+# Error reading file: cannot open the connection 
+# Warning message:
+# In file(filename, \"r\") :
+#   cannot open file 'nonexistent_file.csv': No such file or directory
+# NULL
 ```
 " %}
 
@@ -174,9 +193,13 @@ tryCatch(
 )
 ```
 
+Output: `Dispensing failed: Cannot dispense 50 units. Only 20 available.`
+
 " %}
 
-# **Debugging Tips**
+# **Debugging**
+
+{% include question.html header="Tips" text="
 
 Debugging helps you trace problems when something goes wrong in your data pipeline or algorithm.
 
@@ -218,6 +241,32 @@ for (item in test_data) {
   })
 }
 ```
+Output:
+
+DEBUG: Input class: character
+
+DEBUG: Input value: hello
+
+DEBUG: Processed result: HELLO
+
+Success: HELLO 
+
+DEBUG: Input class: numeric
+
+DEBUG: Input value: 42
+
+DEBUG: Processed result: 84
+
+Success: 84 
+
+DEBUG: Input class: list
+
+DEBUG: Input value: 1
+
+DEBUG: Processed result: 2
+
+Success: 2 
+" %}
 
 {% capture text %}
 Error handling is not just about preventing crashes — it's about **ensuring reliability and trust** in your programs.

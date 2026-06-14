@@ -1,6 +1,6 @@
 ---
-section_id: Data Analysis with R
-nav_order: 8
+section: Data Analysis with R
+nav_order: 11
 title: Exercises with Solutions
 topics: exercises
 ---

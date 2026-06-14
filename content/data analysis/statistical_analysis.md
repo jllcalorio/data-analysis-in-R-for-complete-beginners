@@ -1,6 +1,6 @@
 ---
-section_id: Data Analysis with R
-nav_order: 7
+section: Data Analysis with R
+nav_order: 10
 title: Statistical Analysis
 topics: statistics, t-test, ANOVA, chi-square, correlation, regression
 ---
@@ -55,6 +55,31 @@ describe_data <- function(x, column_name) {
 describe_data(df$Glucose,        \"Fasting Glucose (mg/dL)\")
 describe_data(df$Age,            \"Patient Age (years)\")
 ```
+
+Outputs:
+
+```r
+=== Descriptive Statistics for Fasting Glucose (mg/dL) ===
+Count:              100
+Mean:               137.46
+Median:             140.50
+Mode:               96.00
+Standard Deviation: 36.40
+Range:              130.00
+IQR:                63.50
+```
+
+```r
+=== Descriptive Statistics for Patient Age (years) ===
+Count:              100
+Mean:               46.90
+Median:             47.50
+Mode:               53.00
+Standard Deviation: 16.91
+Range:              57.00
+IQR:                25.50
+```
+
 " %}
 
 # **Univariate Tests**
@@ -76,6 +101,16 @@ cat(sprintf(\"T-statistic:   %.4f\n\",  result$statistic))
 cat(sprintf(\"P-value:       %.4f\n\",  result$p.value))
 ```
 
+**Output**
+
+```r
+=== One-Sample T-Test ===
+Testing if mean glucose differs from 100 mg/dL
+Sample mean:   137.46
+T-statistic:   10.2905
+P-value:       0.0000
+```
+
 💡 **Clinical meaning:** A significant p-value (< 0.05) suggests that your patient group's glucose levels are not within normal limits.
 
 # **Two-sample t-test**
@@ -91,6 +126,14 @@ result <- t.test(bp_diabetic, bp_hypertensive)
 cat(\"\n=== Two-Sample T-Test ===\n\")
 cat(sprintf(\"T-statistic: %.4f\n\", result$statistic))
 cat(sprintf(\"P-value:     %.4f\n\", result$p.value))
+```
+
+**Output**
+
+```r
+=== Two-Sample T-Test ===
+T-statistic: -1.1210
+P-value:     0.2662
 ```
 
 💡 *Clinical meaning:* Tests if there's a significant difference in blood pressure between the two groups.
@@ -111,6 +154,16 @@ cat(sprintf(\"Mean before: %.2f\n\", mean(bp_before)))
 cat(sprintf(\"Mean after:  %.2f\n\", mean(bp_after)))
 cat(sprintf(\"P-value:     %.4f\n\", result$p.value))
 ```
+
+**Output**
+
+```r
+=== Paired t-test ===
+Mean before: 139.30
+Mean after:  135.05
+P-value:     0.0328
+```
+
 💡 *Clinical meaning:* Determines whether treatment significantly lowered blood pressure.
 " %}
 
@@ -129,6 +182,13 @@ p_value <- summary_result[[1]]$`Pr(>F)`[1]
 
 cat(\"\n=== One-Way ANOVA ===\n\")
 cat(sprintf(\"F-statistic: %.4f, P-value: %.4f\n\", f_stat, p_value))
+```
+
+**Output:**
+
+```r
+=== One-Way ANOVA ===
+F-statistic: 1.8568, P-value: 0.1617
 ```
 
 💡 *Clinical meaning:* Tests if blood pressure differs across diagnosis groups.
@@ -165,6 +225,18 @@ print(contingency)
 cat(sprintf(\"P-value: %.4f\n\", result$p.value))
 ```
 
+**Output:**
+
+```r
+=== Chi-Square Test of Independence ===
+              
+               High Normal
+  Diabetes       18     18
+  Healthy         8     15
+  Hypertension   27     14
+P-value: 0.0520
+```
+
 💡 *Clinical meaning:* A significant association suggests high blood pressure may relate to diagnosis.
 
 # **Chi-square goodness of fit test**
@@ -180,6 +252,13 @@ result <- chisq.test(observed, p = expected_proportions)
 cat(\"\n=== Chi-Square Goodness of Fit ===\n\")
 cat(sprintf(\"P-value: %.4f\n\", result$p.value))
 ```
+
+**Output:**
+
+```r
+=== Chi-Square Goodness of Fit ===
+P-value: 0.0558
+```
 " %}
 
 # **Correlation and Regression Analysis**
@@ -193,6 +272,16 @@ cat(\"\n=== Correlation Analysis ===\n\")
 numeric_cols  <- df |> select(Age, Glucose, Blood_Pressure)
 corr_matrix   <- cor(numeric_cols, use = \"complete.obs\")
 print(round(corr_matrix, 3))
+```
+
+**Output:**
+
+```r
+=== Correlation Analysis ===
+                  Age Glucose Blood_Pressure
+Age             1.000  -0.160         -0.103
+Glucose        -0.160   1.000          0.195
+Blood_Pressure -0.103   0.195          1.000
 ```
 " %}
 
@@ -212,7 +301,14 @@ cat(\"\n=== Linear Regression ===\n\")
 cat(sprintf(\"Slope: %.2f, R²: %.3f, P-value: %.4f\n\", slope, r_squared, p_value))
 ```
 
-💡 *Clinical meaning:* Each 1-year increase in age predicts an average change of X mg/dL in glucose.
+**Output:**
+
+```r
+=== Linear Regression ===
+Slope: -0.34, R²: 0.026, P-value: 0.1125
+```
+
+💡 *Clinical meaning:* Each 1-year increase in age predicts an average change of -0.34 mg/dL in glucose.
 " %}
 
 {% include question.html header="Logistic Regression" text="
@@ -256,6 +352,19 @@ cat(sprintf(\"Accuracy: %.3f\n\", accuracy))
 
 cat(\"\nConfusion Matrix:\n\")
 print(table(Predicted = pred_class, Actual = test_df$Hypertensive))
+```
+
+**Output:**
+
+```r
+=== Logistic Regression: Predicting Hypertension ===
+Accuracy: 0.500
+
+Confusion Matrix:
+         Actual
+Predicted  0  1
+        0  5  5
+        1 10 10
 ```
 " %}
 

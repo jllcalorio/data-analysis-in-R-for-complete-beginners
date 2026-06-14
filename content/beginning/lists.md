@@ -1,5 +1,5 @@
 ---
-section_id: Beginning R
+section: Beginning R
 nav_order: 6
 title: Vectors and Lists
 topics: vector, list, collection, multiple data storing
@@ -14,12 +14,30 @@ Vectors are created using `c() `(combine).
 ```r
 # Vector of patient names
 patients <- c(\"Alice\", \"Ben\", \"Carla\", \"David\")
+patients                               # \"Alice\" \"Ben\"   \"Carla\" \"David\"
 
 # Vector of blood pressure readings
 bp_readings <- c(120, 130, 110, 140)
+# Print
+bp_readings                            # 120 130 110 140
 
 # Lists can store mixed data types
+# Print
 patient_info <- list(\"John Doe\", 45, 72.5, TRUE)
+# Print
+patient_info
+# Output
+# [[1]]
+# [1] \"John Doe\"
+
+# [[2]]
+# [1] 45
+
+# [[3]]
+# [1] 72.5
+
+# [[4]]
+# [1] TRUE
 ```
 " %}
 
@@ -43,7 +61,7 @@ In clinical data, indexing retrieves specific records or results.
 patients <- c(\"Alice\", \"Ben\")
 
 # Adding items
-patients <- c(patients, \"Carla\")       # Add to end
+patients <- c(patients, \"Carla\")         # Add to end
 print(patients)                          # \"Alice\" \"Ben\" \"Carla\"
 
 # Removing items (using negative index)
@@ -63,7 +81,7 @@ Slicing in R uses the `start:stop` syntax (both ends inclusive).
 temperatures <- c(36.5, 37.1, 36.8, 37.5, 38.0, 36.9)
 
 print(temperatures[2:4])   # 2nd to 4th readings: 37.1 36.8 37.5
-print(temperatures[1:3])   # First 3 readings
+print(temperatures[1:3])   # First 3 readings:    36.5 37.1 36.8
 ```
 " %}
 

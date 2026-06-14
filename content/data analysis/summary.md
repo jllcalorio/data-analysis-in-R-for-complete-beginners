@@ -1,6 +1,6 @@
 ---
-section_id: Data Analysis with R
-nav_order: 9
+section: Data Analysis with R
+nav_order: 12
 title: Summary
 topics: summary, next steps
 ---

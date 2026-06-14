@@ -1,6 +1,6 @@
 ---
-section_id: Data Analysis with R
-nav_order: 2
+section: Data Analysis with R
+nav_order: 5
 title: Introduction to Data Frames
 topics: data frame, tibble, structured data
 ---
@@ -22,12 +22,16 @@ ages <- c(34, 45, 29, 50, 41)
 names(ages) <- c(\"Ana\", \"Luis\", \"Maria\", \"Jose\", \"Carmen\")
 
 print(ages)
-cat(\"Data type:\",    class(ages),  \"\n\")
-cat(\"Length:\",       length(ages), \"\n\")
+
+#  Ana   Luis  Maria   Jose Carmen 
+#   34     45     29     50     41 
+
+cat(\"Data type:\",      class(ages),  \"\n\")            # Data type: numeric 
+cat(\"Length:\",         length(ages), \"\n\")            # length: 5
 
 # Basic operations
-cat(\"Mean age:\",     mean(ages),   \"\n\")
-cat(\"Oldest patient:\", names(which.max(ages)), \"\n\")
+cat(\"Mean age:\",       mean(ages),   \"\n\")            # Mean age: 39.8 
+cat(\"Oldest patient:\", names(which.max(ages)), \"\n\")  # Oldest patient: Jose
 ```
 " %}
 
@@ -38,7 +42,7 @@ A **data frame** is like a full spreadsheet (like Microsoft Excel or Google Shee
 **Example:** Creating a data frame of patient information
 
 ```r
-df <- data.frame(
+sample_df <- data.frame(
   Patient_ID  = 101:105,
   Name        = c(\"Ana\", \"Luis\", \"Maria\", \"Jose\", \"Carmen\"),
   Age         = c(34, 45, 29, 50, 41),
@@ -47,13 +51,15 @@ df <- data.frame(
 )
 ```
 
-**Inspecting the data frame:**
+This is how the data frame looks like:
 
 ```r
-print(df)
-cat(\"Dimensions:\",   nrow(df), \"rows x\", ncol(df), \"columns\n\")
-cat(\"Column names:\", paste(names(df), collapse = \", \"), \"\n\")
-str(df)    # Compact structure overview
+  Patient_ID   Name Age    Diagnosis Cholesterol
+1        101    Ana  34     Diabetes         210
+2        102   Luis  45 Hypertension         190
+3        103  Maria  29      Healthy         170
+4        104   Jose  50     Diabetes         250
+5        105 Carmen  41 Hypertension         230
 ```
 " %}
 
@@ -64,32 +70,73 @@ R provides several ways to quickly explore and summarize your dataset.
 **First 3 rows:**
 
 ```r
-head(df, 3)
+head(sample_df, 3)
+```
+
+Result:
+
+```r
+  Patient_ID  Name Age    Diagnosis Cholesterol
+1        101   Ana  34     Diabetes         210
+2        102  Luis  45 Hypertension         190
+3        103 Maria  29      Healthy         170
 ```
 
 **Last 2 rows:**
 
 ```r
-tail(df, 2)
+tail(sample_df, 2)
+```
+
+Result:
+
+```r
+  Patient_ID   Name Age    Diagnosis Cholesterol
+4        104   Jose  50     Diabetes         250
+5        105 Carmen  41 Hypertension         230
 ```
 
 **Structure and data types:**
 
 ```r
-str(df)
+str(sample_df)
+```
+
+Result:
+
+```r
+'data.frame':	5 obs. of  5 variables:
+ $ Patient_ID : int  101 102 103 104 105
+ $ Name       : chr  \"Ana\" \"Luis\" \"Maria\" \"Jose\" ...
+ $ Age        : num  34 45 29 50 41
+ $ Diagnosis  : chr  \"Diabetes\" \"Hypertension\" \"Healthy\" \"Diabetes\" ...
+ $ Cholesterol: num  210 190 170 250 230
 ```
 
 **Quick descriptive statistics:**
 
 ```r
-summary(df)
+summary(sample_df)
+```
+
+Result:
+
+```r
+   Patient_ID      Name                Age        Diagnosis          Cholesterol 
+ Min.   :101   Length:5           Min.   :29.0   Length:5           Min.   :170  
+ 1st Qu.:102   Class :character   1st Qu.:34.0   Class :character   1st Qu.:190  
+ Median :103   Mode  :character   Median :41.0   Mode  :character   Median :210  
+ Mean   :103                      Mean   :39.8                      Mean   :210  
+ 3rd Qu.:104                      3rd Qu.:45.0                      3rd Qu.:230  
+ Max.   :105                      Max.   :50.0                      Max.   :250
 ```
 
 **Column-specific information:**
 
 ```r
-table(df$Diagnosis)            # Frequency of each diagnosis
-mean(df$Cholesterol)           # Average cholesterol level
+table(sample_df$Diagnosis)  # Frequency of each diagnosis :  Diabetes Healthy Hypertension 
+                            #                                       2       1            2
+mean(sample_df$Cholesterol) # Average cholesterol level   : 210
 ```
 " %}
 
